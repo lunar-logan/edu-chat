@@ -1,0 +1,27 @@
+body {
+
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: url("/images/ignasi_pattern_s.png");
+}
+
+a {
+    /*color: #00B7FF;*/
+}
+
+#content {
+    /*outline: solid 1px hotpink;*/
+    overflow: auto;
+    width: 980px;
+    /*height: 80vh;*/
+    padding: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffff;
+    box-shadow: 0 0 3px #bbbbbb;
+}
+
+
+.chat-room {
+    /*outline:dashed 1px blueviolet;*/
+    overflow: auto;
+}

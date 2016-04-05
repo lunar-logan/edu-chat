@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "database": "edu-chat",
+  "username": "root",
+  "password": "",
+  "dialect": "mysql"
+}

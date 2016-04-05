@@ -1,0 +1,20 @@
+1. Notification alert on a message arrival
+    a. Bold out the user from which message came (if its not already active)
+
+2. Group chat feature support
+    a. Not sure about the `id` (As username cannot be used in this case)
+
+3. Wikipedia support
+
+4. Obscene and sarcasm detection
+
+5. media transfer support
+
+6. Load active users from the mookit_session database
+
+7. IMPORTANT
+   ----------------
+    Comment out the lines in the sql
+
+
+8. Change the respective mookit-db
