@@ -92,12 +92,40 @@ var LoginForm = React.createClass({
  * <b>lastMessage</b>: Last conversation between this and the current user
  */
 var OnlineUser = React.createClass({
+    getInitialState: function () {
+        return {
+            unseenMessagesCount: 0,
+            unseenMessagesLabel: ''
+        };
+    },
     handleClick: function (e) {
         // ReactDOM.render(<Messenger messages={DUMMY_CHAT}
         //                            chattingWith={this.props.name}/>, document.getElementById('content'));
         console.log("Beginning to chat with: " + this.props.username + '#' + this.props.id);
+        this.setState({
+            unseenMessagesCount: 0,
+            unseenMessagesLabel: ''
+        });
         this.props.userSelected({uid: this.props.id, username: this.props.username});
     },
+
+    componentDidMount: function () {
+        var self = this;
+        socket.on('private message', function (msg) {
+            if (msg.fromUser === self.props.id && self.props.id !== self.props.chattingWith.uid) {
+                var newState = {
+                    unseenMessagesCount: 1 + self.state.unseenMessagesCount
+                };
+                if (newState.unseenMessagesCount > 99) {
+                    newState.unseenMessagesLabel = "99+";
+                } else {
+                    newState.unseenMessagesLabel = "" + newState.unseenMessagesCount;
+                }
+                self.setState(newState);
+            }
+        });
+    },
+
     render: function () {
         var itemStyle = {
             borderRadius: 0
@@ -119,7 +147,7 @@ var OnlineUser = React.createClass({
                                     <div style={lastMessageStyle}>{this.props.lastMessage}</div>
                                 </div>
                                 <div className="col-sm-2">
-                                    <span className="label label-success">99+</span>
+                                    <span className="label label-success">{this.state.unseenMessagesLabel}</span>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +230,8 @@ var OnlineUsersList = React.createClass({
             return (
                 <OnlineUser id={user.uid} key={user.uid} username={user.username}
                             lastMessage={'last active 4h'}
-                            userSelected={self.props.userSelected}/>
+                            userSelected={self.props.userSelected}
+                            chattingWith={self.props.chattingWith}/>
             );
         });
         return (
@@ -248,7 +277,8 @@ var FilterableOnlineUsersList = React.createClass({
                 <OnlineUsersList
                     users={this.state.users}
                     filterText={this.state.filterText}
-                    userSelected={this.props.userSelected}/>
+                    userSelected={this.props.userSelected}
+                    chattingWith={this.props.chattingWith}/>
             </div>
         );
     }
@@ -528,7 +558,8 @@ var Messenger = React.createClass({
                         <FilterableOnlineUsersList
                             activeUsersUrl="/api/users/active"
                             pollInterval={5000}
-                            userSelected={this.handleUserSelected}/>
+                            userSelected={this.handleUserSelected}
+                            chattingWith={this.state.chattingWith}/>
                     </div>
                     <div className="col-md-9" style={onlineUsersListStyle}>
                         <ChatRoom
