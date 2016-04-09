@@ -342,7 +342,17 @@ var ChatItem = React.createClass({
 var ChatList = React.createClass({
     render: function () {
 
-        var chatNodes = this.props.messages.map(function (chat) {
+
+        this.props.messages.sort(function (a, b) {
+            if (a.createdAt > b.createdAt) {
+                return 1;
+            } else if (a.createdAt < b.createdAt) {
+                return -1;
+            }
+            return 0;
+        });
+
+        var messageNodes = this.props.messages.map(function (chat) {
             return (
                 <ChatItem
                     fromUser={chat.fromUser}
@@ -363,7 +373,7 @@ var ChatList = React.createClass({
         };
         return (
             <ul className="list-group" style={chatListStyle}>
-                {chatNodes.reverse()}
+                {messageNodes}
             </ul>
         );
     }
