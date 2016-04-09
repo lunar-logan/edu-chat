@@ -102,15 +102,26 @@ var OnlineUser = React.createClass({
         var itemStyle = {
             borderRadius: 0
         };
+        var lastMessageStyle = {
+            overflow: "auto",
+            fontSize: "11px"
+        };
         return (
             // TODO : Remove default active class
             <li role="presentation" className={this.props.username === "anurag" ? "active": ""}>
                 <a href="#" style={itemStyle}>
                     <div id={this.props.id + this.props.username} className="media" onClick={this.handleClick}>
-                        <div className="media-left"><img className="media-object" src=""/></div>
+                        <div className="media-left"><img className="media-object" width="40px" src=""/></div>
                         <div className="media-body">
-                            <div className="media-heading">{this.props.username}</div>
-                            <div>{this.props.lastMessage}</div>
+                            <div className="row">
+                                <div className="col-sm-9">
+                                    <div className="media-heading">{this.props.username}</div>
+                                    <div style={lastMessageStyle}>{this.props.lastMessage}</div>
+                                </div>
+                                <div className="col-sm-2">
+                                    <span className="label label-success">99+</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -190,7 +201,7 @@ var OnlineUsersList = React.createClass({
         var listNodes = onlineUsers.map(function (user) {
             return (
                 <OnlineUser id={user.uid} key={user.uid} username={user.username}
-                            lastMessage={'Here comes the last message okay i get it'}
+                            lastMessage={'last active 4h'}
                             userSelected={self.props.userSelected}/>
             );
         });
@@ -244,6 +255,26 @@ var FilterableOnlineUsersList = React.createClass({
 });
 
 
+var MessageBlock = React.createClass({
+    render: function () {
+        var i = 0;
+        var textNodes = this.props.messages.map(function (text) {
+            i++;
+            return (
+                <div>
+                    {text}
+                </div>
+            );
+        });
+        return (
+            <div>
+                {textNodes}
+            </div>
+        );
+    }
+});
+
+
 /**
  * Represents a single chat message in the list of messages
  * Properties:
@@ -254,22 +285,23 @@ var ChatItem = React.createClass({
     render: function () {
         var chatItemStyle = {
             border: "none",
-            borderRadius: 0,
-            margin: 0,
-            padding: 0
+            borderRadius: 0
         };
         return (
             <li className="list-group-item" style={chatItemStyle}>
                 <div className="media">
                     <div className="media-left"><img className="media-object" src=""/></div>
                     <div className="media-body">
-                        <div className="well well-sm">{this.props.content}</div>
+                        <div >
+                            {this.props.content}
+                        </div>
                     </div>
                 </div>
-            </li >
+            </li>
         );
     }
 });
+
 
 /**
  * Represents a set of messages between
@@ -279,11 +311,12 @@ var ChatItem = React.createClass({
  */
 var ChatList = React.createClass({
     render: function () {
+
         var chatNodes = this.props.messages.map(function (chat) {
             return (
                 <ChatItem
-                    content={chat.content}
                     fromUser={chat.fromUser}
+                    content={chat.content}
                     ts={chat.ts}
                     key={chat.id}
                     fromUsername={chat.fromUsername}/>
@@ -296,11 +329,11 @@ var ChatList = React.createClass({
             overflow: "auto",
             borderRadius: 0,
             marginBottom: 0,
-            borderBottom: "solid 2px #ccc"
+            borderBottom: "solid 2px #f5f5f5"
         };
         return (
             <ul className="list-group" style={chatListStyle}>
-                {chatNodes}
+                {chatNodes.reverse()}
             </ul>
         );
     }
@@ -325,29 +358,45 @@ var MessageInput = React.createClass({
             this.props.onMessageDispatch(message);
             dispatchMessage(message);
             this.setState({value: ''});
+        } else {
+            // Emit the event that the current user is typing
+            console.log("Emiting the event of typing for " + JSON.stringify(Lockr.get('session').uid));
+            socket.emit('writing', {uid: Lockr.get('session').uid});
         }
     },
     render: function () {
         var inputStyle = {
             borderRadius: 0,
-            border: "none"
+            overflow: "hidden",
+            border: "none",
+            boxShadow: "none"
+        };
+        var actionButtonStyle = {
+            border: "none",
+            boxShadow: "none",
+            background: "#ffffff"
         };
 
         return (
-            <div className="input-group">
+            <div className="input-group" style={inputStyle}>
                 <input
                     type="text"
                     className="form-control"
-                    aria-label="..."
                     onKeyDown={this.handleKeyDown}
                     onChange={this.handleChange}
                     value={this.state.value}
                     style={inputStyle}
                     placeholder="Type a message..."/>
                 <div className="input-group-btn">
-                    <div class="btn-group" role="group" aria-label="">
-                        <button type="button" class="btn btn-default">Send</button>
-                        <button type="button" class="btn btn-default">2</button>
+                    <div className="input-group-btn" role="group">
+                        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                style={actionButtonStyle}>
+                            <span className="glyphicon glyphicon-picture"></span>
+                        </button>
+                        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                style={actionButtonStyle}>
+                            <span className="glyphicon glyphicon-paperclip"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -357,16 +406,51 @@ var MessageInput = React.createClass({
 
 
 var ChatRoom = React.createClass({
+    getInitialState: function () {
+        return {
+            isWriting: '',
+            timeLeft: 0
+        };
+    },
+
+    updateWhoIsWriting: function () {
+        var self = this;
+        socket.on('writing', function (msg) {
+            if (msg.uid === self.props.chattingWith.uid && self.state.timeLeft === 0) {
+                self.setState(function (oldState, currentProps) {
+                    return {
+                        isWriting: 'is writing',
+                        timeLeft: 3000
+                    };
+                });
+                setTimeout(function () {
+                    self.setState(function (oldState, currentProps) {
+                        return {
+                            isWriting: '',
+                            timeLeft: 0
+                        };
+                    });
+                }, self.state.timeLeft);
+            }
+        });
+    },
+
+    componentDidMount: function () {
+        this.updateWhoIsWriting();
+    },
 
     render: function () {
         var chatTitleStyle = {
-            borderBottom: "solid 2px #e3e3e3",
+            borderBottom: "solid 2px #f5f5f5",
             overflow: "auto"
         };
         return (
             <div className="chat-room">
                 <div style={chatTitleStyle}>
-                    <p className="navbar-text">{this.props.chattingWith.username}</p>
+                    <p className="navbar-text">
+                        {this.props.chattingWith.username}
+                        <span className="is-writing">{this.state.isWriting}</span>
+                    </p>
                 </div>
                 <ChatList messages={this.props.messages}/>
                 <MessageInput
@@ -435,7 +519,7 @@ var Messenger = React.createClass({
     render: function () {
         var onlineUsersListStyle = {
             overflow: "auto",
-            borderLeft: "solid 1px #ccc"
+            borderLeft: "solid 2px #f5f5f5"
         };
         return (
             <div>

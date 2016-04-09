@@ -9,10 +9,8 @@ a {
 }
 
 #content {
-    /*outline: solid 1px hotpink;*/
     overflow: auto;
-    width: 980px;
-    /*height: 80vh;*/
+    /*width: 1024px;*/
     padding: 16px;
     margin-left: auto;
     margin-right: auto;
@@ -20,8 +18,13 @@ a {
     box-shadow: 0 0 3px #bbbbbb;
 }
 
-
 .chat-room {
-    /*outline:dashed 1px blueviolet;*/
     overflow: auto;
+}
+
+.is-writing {
+    overflow: auto;
+    font-size: 11px;
+    color: limegreen;
+    padding-left: 8px;
 }
