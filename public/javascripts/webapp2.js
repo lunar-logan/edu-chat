@@ -99,8 +99,6 @@ var OnlineUser = React.createClass({
         };
     },
     handleClick: function (e) {
-        // ReactDOM.render(<Messenger messages={DUMMY_CHAT}
-        //                            chattingWith={this.props.name}/>, document.getElementById('content'));
         console.log("Beginning to chat with: " + this.props.username + '#' + this.props.id);
         this.setState({
             unseenMessagesCount: 0,
@@ -134,7 +132,7 @@ var OnlineUser = React.createClass({
         };
         var itemStyle = {
             textDecoration: "none",
-            color: "#ffffff",
+            color: "#ffffff"
             // borderBottom: "solid 1px #1a415f"
         };
         var imgStyle = {
@@ -171,9 +169,10 @@ var OnlineUser = React.createClass({
             overflow: "auto",
             fontSize: "11px"
         };
+
         return (
             // TODO : Remove default active class
-            <li role="presentation" className={this.props.active}>
+            <li role="presentation" className={this.props.id === this.props.chattingWith.uid ? 'active' : ''}>
                 {this.getUserItem()}
             </li>
         );
@@ -242,13 +241,7 @@ var SearchField = React.createClass({
 });
 
 var OnlineUsersList = React.createClass({
-    getInitialState: function () {
-        return {
-            nodeActive: ''
-        };
-    },
     handleUserSelected: function (data) {
-        this.setState({nodeActive: ''});
         this.props.userSelected(data);
     },
     render: function () {
@@ -267,8 +260,7 @@ var OnlineUsersList = React.createClass({
                             username={user.username}
                             lastMessage={'last active 4h'}
                             userSelected={self.handleUserSelected}
-                            chattingWith={self.props.chattingWith}
-                            active={self.state.nodeActive}/>
+                            chattingWith={self.props.chattingWith}/>
             );
         });
         return (
@@ -529,7 +521,8 @@ var MessageInput = React.createClass({
         var actionButtonStyle = {
             border: "none",
             boxShadow: "none",
-            background: "#ffffff"
+            background: "transparent",
+            fontSize: "16px"
         };
 
         return (
@@ -546,11 +539,7 @@ var MessageInput = React.createClass({
                     <div className="input-group-btn" role="group">
                         <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                 style={actionButtonStyle}>
-                            <span className="glyphicon glyphicon-picture"></span>
-                        </button>
-                        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                style={actionButtonStyle}>
-                            <span className="glyphicon glyphicon-paperclip"></span>
+                            <span className="glyphicon glyphicon-paperclip whiteish"></span>
                         </button>
                     </div>
                 </div>

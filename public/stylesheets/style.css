@@ -32,6 +32,14 @@ body {
     background-color: #1a415f;
 }
 
+.nav > li > a:active {
+    background-color: #1a415f;
+}
+
+.nav > li > a:focus {
+    background-color: #1a415f;
+}
+
 .is-writing {
     overflow: auto;
     font-size: 11px;
