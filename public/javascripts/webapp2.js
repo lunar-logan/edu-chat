@@ -312,21 +312,76 @@ var MessageBlock = React.createClass({
  * content: content of the chat
  */
 var ChatItem = React.createClass({
-    render: function () {
-        var chatItemStyle = {
-            border: "none",
-            borderRadius: 0
+    getLeftItem: function () {
+        var itemStyle = {
+            margin: "4px"
+        };
+        var imgStyle = {
+            backgroundColor: "#ffffff",
+            borderRadius: "16px",
+            boxShadow: "0 0 4px #d2d2d2"
+        };
+        var msgStyle = {
+            padding: "8px 16px",
+            borderRadius: "2px",
+            background: "#ffffff",
+            boxShadow: "0 0 4px #d2d2d2"
         };
         return (
-            <li className="list-group-item" style={chatItemStyle}>
-                <div className="media">
-                    <div className="media-left"><img className="media-object" src=""/></div>
-                    <div className="media-body">
-                        <div >
-                            {this.props.content}
-                        </div>
-                    </div>
+            <div className="row" style={itemStyle}>
+                <div className="col-sm-1">
+                    <img src="" width="32" style={imgStyle}/>
                 </div>
+                <div className="col-sm-7" style={msgStyle}>{this.props.content}</div>
+                <div className="col-sm-4"></div>
+            </div>
+        );
+    },
+    getRightItem: function () {
+
+        var itemStyle = {
+            margin: "4px"
+        };
+        var imgStyle = {
+            backgroundColor: "#ffffff",
+            borderRadius: "16px",
+            boxShadow: "0 0 4px #d2d2d2"
+        };
+        var msgStyle = {
+            padding: "8px 16px",
+            borderRadius: "2px",
+            background: "#ffffff",
+            boxShadow: "0 0 4px #d2d2d2"
+        };
+        return (
+            <div className="row" style={itemStyle}>
+                <div className="col-sm-4"></div>
+                <div className="col-sm-7" style={msgStyle}>{this.props.content}</div>
+                <div className="col-sm-1">
+                    <img src="" width="32" style={imgStyle}/>
+                </div>
+            </div>
+        );
+    },
+    render: function () {
+        var curUserId = Lockr.get('session').uid;
+        var chatItemStyle = {
+            border: "none",
+            borderRadius: 0,
+            background: "transparent"
+
+        };
+
+        if (curUserId === this.props.fromUser) {
+            return (
+                <li className="list-group-item" style={chatItemStyle}>
+                    {this.getLeftItem()}
+                </li>
+            );
+        }
+        return (
+            <li className="list-group-item" style={chatItemStyle}>
+                {this.getRightItem()}
             </li>
         );
     }
@@ -369,7 +424,8 @@ var ChatList = React.createClass({
             overflow: "auto",
             borderRadius: 0,
             marginBottom: 0,
-            borderBottom: "solid 2px #f5f5f5"
+            borderBottom: "solid 2px #f5f5f5",
+            background: "url(/images/ignasi_pattern_s.png)"
         };
         return (
             <ul className="list-group" style={chatListStyle}>
