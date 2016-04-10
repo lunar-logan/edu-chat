@@ -4,22 +4,32 @@ body {
     background: url("/images/ignasi_pattern_s.png");
 }
 
-a {
-    /*color: #00B7FF;*/
-}
-
 #content {
     overflow: auto;
-    /*width: 1024px;*/
-    padding: 16px;
+    width: 960px;
+    height: 90vh;
+    padding-left: 16px;
+    padding-right: 16px;
+
     margin-left: auto;
     margin-right: auto;
-    background: #ffffff;
-    box-shadow: 0 0 3px #bbbbbb;
+
+    background: transparent;
+
+    box-shadow: 0 0 3px #aaa;
 }
 
 .chat-room {
     overflow: auto;
+    /*background: #1a415f;*/
+}
+
+.whiteish, .whiteish a {
+    color: #47b0ff;
+}
+
+.nav > li > a:hover {
+    background-color: #1a415f;
 }
 
 .is-writing {

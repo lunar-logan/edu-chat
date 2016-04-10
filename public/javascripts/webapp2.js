@@ -107,6 +107,7 @@ var OnlineUser = React.createClass({
             unseenMessagesLabel: ''
         });
         this.props.userSelected({uid: this.props.id, username: this.props.username});
+
     },
 
     componentDidMount: function () {
@@ -126,9 +127,45 @@ var OnlineUser = React.createClass({
         });
     },
 
+    getUserItem: function () {
+        var lastMessageStyle = {
+            overflow: "auto",
+            fontSize: "11px"
+        };
+        var itemStyle = {
+            textDecoration: "none",
+            color: "#ffffff",
+            // borderBottom: "solid 1px #1a415f"
+        };
+        var imgStyle = {
+            borderRadius: "4px"
+        };
+        return (
+            <a href="#" style={itemStyle} onClick={this.handleClick}>
+                <div className="row">
+                    <div className="col-sm-4">
+                        <img className="media-object" width="40px" src="http://www.gravatar.com/avatar/mm"
+                             style={imgStyle}/>
+                    </div>
+                    <div className="col-sm-8">
+                        <div className="row">
+                            <div className="col-sm-9">{this.props.username}
+                                <div style={lastMessageStyle}>{this.props.lastMessage}</div>
+                            </div>
+                            <div className="col-sm-3">
+                                <span className="label label-success">{this.state.unseenMessagesLabel}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        );
+    },
+
     render: function () {
         var itemStyle = {
-            borderRadius: 0
+            borderRadius: 0,
+            color: "#ffffff"
         };
         var lastMessageStyle = {
             overflow: "auto",
@@ -136,23 +173,8 @@ var OnlineUser = React.createClass({
         };
         return (
             // TODO : Remove default active class
-            <li role="presentation" className={this.props.username === "anurag" ? "active": ""}>
-                <a href="#" style={itemStyle}>
-                    <div id={this.props.id + this.props.username} className="media" onClick={this.handleClick}>
-                        <div className="media-left"><img className="media-object" width="40px" src=""/></div>
-                        <div className="media-body">
-                            <div className="row">
-                                <div className="col-sm-9">
-                                    <div className="media-heading">{this.props.username}</div>
-                                    <div style={lastMessageStyle}>{this.props.lastMessage}</div>
-                                </div>
-                                <div className="col-sm-2">
-                                    <span className="label label-success">{this.state.unseenMessagesLabel}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+            <li role="presentation" className={this.props.active}>
+                {this.getUserItem()}
             </li>
         );
     }
@@ -169,31 +191,38 @@ var SearchField = React.createClass({
     render: function () {
         var inputStyle = {
             boxShadow: "none",
-            background: "#F2F2F2",
+            background: "#1a415f",
             border: "none",
-            width: "94%",
-            paddingLeft: 0
+            width: "100%",
+            paddingLeft: 0,
+            color: "#ffffff"
         };
         var settingsBtnStyle = {
-            borderRadius: 0,
-            background: "#F2F2F2",
+            background: "#1a415f",
             border: "none"
         };
         var searchIconStyle = {
-            background: "#F2F2F2",
-            borderRadius: 0,
+            background: "#1a415f",
             border: "none"
         };
         var blockStyle = {
+            paddingTop: "16px",
             paddingBottom: "16px"
         };
+        /**
+         * <span className="input-group-btn">
+         <button className="btn btn-default" type="button" style={settingsBtnStyle}>
+         <span className="glyphicon glyphicon-edit white" aria-hidden="true"></span>
+         </button>
+         </span>
+         */
         return (
             <ul className="nav nav-pills nav-stacked">
                 <li role="presentation">
                     <div style={blockStyle}>
                         <div className="input-group">
                             <span className="input-group-addon" id="basic-addon3" style={searchIconStyle}>
-                                <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                <span className="glyphicon glyphicon-search whiteish" aria-hidden="true"></span>
                             </span>
                             <input type="text"
                                    className="form-control"
@@ -203,11 +232,7 @@ var SearchField = React.createClass({
                                    style={inputStyle}
                                    value={this.state.value}
                                    onChange={this.handleChange}/>
-                            <span className="input-group-btn">
-                                <button className="btn btn-default" type="button" style={settingsBtnStyle}>
-                                    <span className="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-                                </button>
-                            </span>
+
                         </div>
                     </div>
                 </li>
@@ -217,6 +242,15 @@ var SearchField = React.createClass({
 });
 
 var OnlineUsersList = React.createClass({
+    getInitialState: function () {
+        return {
+            nodeActive: ''
+        };
+    },
+    handleUserSelected: function (data) {
+        this.setState({nodeActive: ''});
+        this.props.userSelected(data);
+    },
     render: function () {
         var onlineUsers = [];
         var self = this;
@@ -226,17 +260,20 @@ var OnlineUsersList = React.createClass({
             }
         });
 
-        var listNodes = onlineUsers.map(function (user) {
+        self.listNodes = onlineUsers.map(function (user) {
             return (
-                <OnlineUser id={user.uid} key={user.uid} username={user.username}
+                <OnlineUser id={user.uid}
+                            key={user.uid}
+                            username={user.username}
                             lastMessage={'last active 4h'}
-                            userSelected={self.props.userSelected}
-                            chattingWith={self.props.chattingWith}/>
+                            userSelected={self.handleUserSelected}
+                            chattingWith={self.props.chattingWith}
+                            active={self.state.nodeActive}/>
             );
         });
         return (
             <ul className="nav nav-pills nav-stacked">
-                {listNodes}
+                {self.listNodes}
             </ul>
         );
     }
@@ -268,8 +305,7 @@ var FilterableOnlineUsersList = React.createClass({
     },
     render: function () {
         var activeUsersListStyle = {
-            height: "80vh",
-            backgroundColor: "#ffffff"
+            height: "90vh"
         };
         return (
             <div style={activeUsersListStyle}>
@@ -319,21 +355,27 @@ var ChatItem = React.createClass({
         var imgStyle = {
             backgroundColor: "#ffffff",
             borderRadius: "16px",
-            boxShadow: "0 0 4px #d2d2d2"
+            border: "solid 1px #337AB7"
+            // boxShadow: "0 0 4px #d2d2d2"
         };
         var msgStyle = {
             padding: "8px 16px",
             borderRadius: "2px",
-            background: "#ffffff",
-            boxShadow: "0 0 4px #d2d2d2"
+            background: "#337AB7",
+            color: "#ffffff",
+            display: "table",
+            minWidth: "0%",
+            maxWidth: "100%"
         };
         return (
             <div className="row" style={itemStyle}>
                 <div className="col-sm-1">
                     <img src="" width="32" style={imgStyle}/>
                 </div>
-                <div className="col-sm-7" style={msgStyle}>{this.props.content}</div>
-                <div className="col-sm-4"></div>
+                <div className="col-sm-6">
+                    <span style={msgStyle}>{this.props.content}</span>
+                </div>
+                <div className="col-sm-5"></div>
             </div>
         );
     },
@@ -345,18 +387,27 @@ var ChatItem = React.createClass({
         var imgStyle = {
             backgroundColor: "#ffffff",
             borderRadius: "16px",
-            boxShadow: "0 0 4px #d2d2d2"
+            border: "solid 1px #ccc"
+            // boxShadow: "0 0 4px #d2d2d2"
         };
         var msgStyle = {
+            background: "#ffffff",
+            border: "solid 1px #ccc",
             padding: "8px 16px",
             borderRadius: "2px",
-            background: "#ffffff",
-            boxShadow: "0 0 4px #d2d2d2"
+            color: "#000",
+            display: "table",
+            minWidth: "0%",
+            maxWidth: "100%",
+            float: "right"
+            // boxShadow: "0 0 4px #d2d2d2"
         };
         return (
             <div className="row" style={itemStyle}>
-                <div className="col-sm-4"></div>
-                <div className="col-sm-7" style={msgStyle}>{this.props.content}</div>
+                <div className="col-sm-5"></div>
+                <div className="col-sm-6">
+                    <span style={msgStyle}>{this.props.content}</span>
+                </div>
                 <div className="col-sm-1">
                     <img src="" width="32" style={imgStyle}/>
                 </div>
@@ -369,7 +420,6 @@ var ChatItem = React.createClass({
             border: "none",
             borderRadius: 0,
             background: "transparent"
-
         };
 
         if (curUserId === this.props.fromUser) {
@@ -420,12 +470,10 @@ var ChatList = React.createClass({
 
         var chatListStyle = {
             boxShadow: "none",
-            height: "70vh",
+            height: "75vh",
             overflow: "auto",
             borderRadius: 0,
-            marginBottom: 0,
-            borderBottom: "solid 2px #f5f5f5",
-            background: "url(/images/ignasi_pattern_s.png)"
+            marginBottom: 0
         };
         return (
             <ul className="list-group" style={chatListStyle}>
@@ -445,15 +493,17 @@ var MessageInput = React.createClass({
     handleKeyDown: function (e) {
         if (e.keyCode === 13) { // Enter key
             var currentMessage = this.state.value;
-            console.log("Sending message to: " + JSON.stringify(this.props.chattingWith));
-            var message = {
-                content: this.state.value,
-                toUser: this.props.chattingWith.uid,
-                fromUser: Lockr.get('session').uid
-            };
-            this.props.onMessageDispatch(message);
-            dispatchMessage(message);
-            this.setState({value: ''});
+            if (currentMessage && currentMessage !== '') {
+                console.log("Sending message to: " + JSON.stringify(this.props.chattingWith));
+                var message = {
+                    content: this.state.value,
+                    toUser: this.props.chattingWith.uid,
+                    fromUser: Lockr.get('session').uid
+                };
+                this.props.onMessageDispatch(message);
+                dispatchMessage(message);
+                this.setState({value: ''});
+            }
         } else {
             // Emit the event that the current user is typing
             console.log("Emiting the event of typing for " + JSON.stringify(Lockr.get('session').uid));
@@ -461,11 +511,20 @@ var MessageInput = React.createClass({
         }
     },
     render: function () {
+        var inputBockStyle = {
+            overflow: "auto",
+            paddingTop: "8px",
+            paddingBottom: "8px",
+            paddingLeft: "16px",
+            paddingRight: "16px",
+            background: "#eeeeee"
+        };
         var inputStyle = {
-            borderRadius: 0,
-            overflow: "hidden",
+            borderRadius: "4px",
             border: "none",
-            boxShadow: "none"
+            overflow: "hidden",
+            boxShadow: "none",
+            background: "#fff"
         };
         var actionButtonStyle = {
             border: "none",
@@ -474,7 +533,7 @@ var MessageInput = React.createClass({
         };
 
         return (
-            <div className="input-group" style={inputStyle}>
+            <div className="input-group" style={inputBockStyle}>
                 <input
                     type="text"
                     className="form-control"
@@ -537,11 +596,18 @@ var ChatRoom = React.createClass({
 
     render: function () {
         var chatTitleStyle = {
-            borderBottom: "solid 2px #f5f5f5",
-            overflow: "auto"
+            background: "#eeeeee",
+            overflow: "auto",
+            color: "hotpink",
+            fontWeight: "bold"
+
+        };
+
+        var chatRootStyle = {
+            background: "#ffffff"
         };
         return (
-            <div className="chat-room">
+            <div className="chat-room" style={chatRootStyle}>
                 <div style={chatTitleStyle}>
                     <p className="navbar-text">
                         {this.props.chattingWith.username}
@@ -615,12 +681,18 @@ var Messenger = React.createClass({
     render: function () {
         var onlineUsersListStyle = {
             overflow: "auto",
-            borderLeft: "solid 2px #f5f5f5"
+            background: "hotpink",
+            padding: "0"
         };
+
+        var leftPanelStyle = {
+            background: "#27618d"
+        };
+
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-3">
+                    <div className="col-md-3" style={leftPanelStyle}>
                         <FilterableOnlineUsersList
                             activeUsersUrl="/api/users/active"
                             pollInterval={5000}
