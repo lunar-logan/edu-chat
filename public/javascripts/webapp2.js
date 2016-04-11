@@ -297,7 +297,7 @@ var FilterableOnlineUsersList = React.createClass({
     },
     render: function () {
         var activeUsersListStyle = {
-            height: "90vh"
+            height: "88vh"
         };
         return (
             <div style={activeUsersListStyle}>
@@ -468,7 +468,7 @@ var ChatList = React.createClass({
 
         var chatListStyle = {
             boxShadow: "none",
-            height: "75vh",
+            height: "73vh",
             overflow: "auto",
             borderRadius: 0,
             marginBottom: 0
@@ -622,6 +622,10 @@ var Messenger = React.createClass({
     getInitialState: function () {
         return {messages: [], chattingWith: {username: '', uid: ''}};
     },
+    handleLogout: function (e) {
+        Lockr.rm('session');
+        document.location.reload(true);
+    },
     loadConversation: function () {
         var self = this;
         socket.on('private message', function (msg) {
@@ -684,8 +688,41 @@ var Messenger = React.createClass({
             background: "#27618d"
         };
 
+        var topHeaderStyle = {
+            overflow: "auto",
+            background: "#1a415f",
+            paddingTop: "8px",
+            paddingBottom: "8px"
+        };
+
+        var btnStyle = {
+            background: "transparent",
+            border: "solid 1px #47b0ff",
+            boxShadow: "none",
+            paddingLeft: "8px",
+            paddingRight: "8px",
+            paddingTop: "2px",
+            paddingBottom: "2px"
+        };
+        var glyphStyle = {
+            fontSize: "14px"
+        };
         return (
             <div>
+                <div className="row" style={topHeaderStyle}>
+                    <div className="col-sm-1">
+                        <button className="btn btn-success" style={btnStyle} title="Create a group">
+                            <span className="glyphicon glyphicon-pencil whiteish" style={glyphStyle}></span>
+                        </button>
+                    </div>
+                    <div className="col-sm-10"></div>
+                    <div className="col-sm-1">
+                        <button className="btn btn-danger" style={btnStyle} title="Click to logout"
+                                onClick={this.handleLogout}>
+                            <span className="glyphicon glyphicon-log-out whiteish" style={glyphStyle}></span>
+                        </button>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-md-3" style={leftPanelStyle}>
                         <FilterableOnlineUsersList

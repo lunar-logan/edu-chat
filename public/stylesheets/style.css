@@ -7,7 +7,7 @@ body {
 #content {
     overflow: auto;
     width: 960px;
-    height: 90vh;
+    /*height: 95vh;*/
     padding-left: 16px;
     padding-right: 16px;
 
