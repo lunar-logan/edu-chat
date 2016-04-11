@@ -340,6 +340,12 @@ var MessageBlock = React.createClass({
  * content: content of the chat
  */
 var ChatItem = React.createClass({
+    rawMarkup: function () {
+        var rawHtml = emoji.replace_colons(this.props.content);
+        return {
+            __html: rawHtml
+        };
+    },
     getLeftItem: function () {
         var itemStyle = {
             margin: "4px"
@@ -365,7 +371,7 @@ var ChatItem = React.createClass({
                     <img src="" width="32" style={imgStyle}/>
                 </div>
                 <div className="col-sm-6">
-                    <span style={msgStyle}>{this.props.content}</span>
+                    <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
                 </div>
                 <div className="col-sm-5"></div>
             </div>
@@ -398,7 +404,7 @@ var ChatItem = React.createClass({
             <div className="row" style={itemStyle}>
                 <div className="col-sm-5"></div>
                 <div className="col-sm-6">
-                    <span style={msgStyle}>{this.props.content}</span>
+                    <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
                 </div>
                 <div className="col-sm-1">
                     <img src="" width="32" style={imgStyle}/>
@@ -711,6 +717,10 @@ function cbOnLoginSuccess() {
 }
 
 $(document).ready(function () {
+
+    emoji.sheet_path = '/images/emoji/sheet_apple_64.png';
+    emoji.use_sheet = true;
+
     if (Lockr.get('session')) {
         cbOnLoginSuccess();
     } else {
