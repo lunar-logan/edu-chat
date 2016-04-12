@@ -1,6 +1,9 @@
-// ============= socket io code     =======================
+// ============= socket io related code   =======================
 var socket = io();
 
+/**
+ * Logs a new message onto console
+ */
 function L(msg) {
     console.log("eduChat real-time server says: " + JSON.stringify(msg));
 }
@@ -21,8 +24,7 @@ function dispatchMessage(msg) {
     socket.emit('private message', msg);
 }
 
-
-// ============= socket io code ends ======================
+// ============= socket io related code ends ======================
 
 
 var LoginForm = React.createClass({
@@ -498,8 +500,7 @@ var MessageInput = React.createClass({
                 var message = {
                     content: this.state.value,
                     toUser: this.props.chattingWith.uid,
-                    fromUser: Lockr.get('session').uid,
-                    createdAt: Date.now()
+                    fromUser: getUserId()
                 };
                 this.props.onMessageDispatch(message);
                 dispatchMessage(message);
@@ -507,8 +508,8 @@ var MessageInput = React.createClass({
             }
         } else {
             // Emit the event that the current user is typing
-            console.log("Emiting the event of typing for " + JSON.stringify(Lockr.get('session').uid));
-            socket.emit('writing', {uid: Lockr.get('session').uid});
+            console.log("Emiting the event of typing for " + JSON.stringify(getUserId()));
+            socket.emit('writing', {uid: getUserId()});
         }
     },
     handleUploadButtonClick: function (e) {
@@ -601,7 +602,7 @@ var ChatRoom = React.createClass({
     updateWhoIsWriting: function () {
         var self = this;
         socket.on('writing', function (msg) {
-            if (msg.uid === self.props.chattingWith.uid && self.state.timeLeft === 0) {
+            if (msg.uid == self.props.chattingWith.uid && self.state.timeLeft === 0) {
                 self.setState(function (oldState, currentProps) {
                     return {
                         isWriting: 'is writing',
@@ -682,10 +683,10 @@ var Messenger = React.createClass({
         var self = this;
 
         // Load conversation from the persistent store
-        var currentUser = Lockr.get('session').uid;
+        var currentUserId = getUserId();
 
         $.post("/api/inbox", {
-            "uid": currentUser,
+            "uid": currentUserId,
             withUid: user.uid,
             rangeStart: 0
         }, function (data) {
@@ -781,7 +782,11 @@ var Messenger = React.createClass({
 
 function cbOnLoginSuccess() {
     console.log("Login success callback called");
-    requestToJoin(Lockr.get('session').name, Lockr.get('session').uid, "Lockr.get('session').token");
+
+    // Request the server to join the real-time edu-chat server
+    requestToJoin(getUserName(), getUserId(), getMookitToken());
+
+    // Render the main DOM
     ReactDOM.render(
         <Messenger/>,
         document.getElementById('content')
@@ -789,16 +794,12 @@ function cbOnLoginSuccess() {
 }
 
 $(document).ready(function () {
-
     emoji.sheet_path = '/images/emoji/sheet_apple_64.png';
     emoji.use_sheet = true;
 
-    if (Lockr.get('session')) {
+    if (isUserAuthenticated()) {
         cbOnLoginSuccess();
     } else {
-        ReactDOM.render(
-            <LoginForm onLoginSuccess={cbOnLoginSuccess}/>,
-            document.getElementById('content')
-        );
+        document.getElementById('content').innerHTML = '<h1>Yo You are not authorized to chat Yo</h1>';
     }
 });

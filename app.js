@@ -8,9 +8,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var _mookit = require('./lib/mookit');
+var mookit = require('./lib/mookit');
 var socketChat = require('./lib/socket-chat')(io);
-var libChat = require('./lib/libchat');
+var models = require('./lib/eclib');
 
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -31,18 +31,37 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var mookit = new _mookit({});
+
+// Route definitions begin
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+    console.log(req.cookies);
+    mookit.authenticate(req.cookies, function (val) {
+        if (val) {
+            res.sendFile(path.join(__dirname, 'views', 'index.html'));
+        } else {
+            res.send('Sorry, you are not authorized');
+        }
+    });
 });
 
+
+app.get('/api/user', function (req, res) {
+    var username = req.query.username;
+    models.User.findOne({where: {username: username}}).then(function (user) {
+        if (user) {
+            res.json(user);
+        } else {
+            res.json({code: -1});
+        }
+    });
+});
 
 /**
  * Returns the currently active users on mookit
  */
 app.get('/api/users/active', function (req, res) {
-    mookit.getActiveUsers(function (users) {
+    mookit.getOnlineUsers(req.cookies, function (users) {
         res.json(users);
     });
 });
@@ -51,17 +70,29 @@ app.get('/api/users/active', function (req, res) {
  * Returns the private messages from the inbox
  */
 app.post('/api/inbox', function (req, res) {
-    var username = req.body.uid;
-    var withUsername = req.body.withUid;
+    var user = req.body.uid;
+    var withUser = req.body.withUid;
     var rangeStart = parseInt(req.body.rangeStart);
 
-    libChat.getPrivateMessages(username, withUsername, rangeStart, function (rows) {
-        if (rows) {
-            res.json(rows);
+    models.Inbox.findAll({
+        where: {
+            fromUser: user,
+            $and: {
+                toUser: withUser
+            },
+            $or: {
+                fromUser: withUser,
+                $and: {
+                    toUser: user
+                }
+            }
+        }
+    }).then(function (messages) {
+        if (messages) {
+            res.json(messages);
         } else {
             res.json([]);
         }
-
     });
 });
 
@@ -77,7 +108,7 @@ app.post('/api/users', function (req, res) {
 
 app.post('/upload', function (req, res) {
     upload(req, res, function (err) {
-        if(err) {
+        if (err) {
             console.log(err);
             return res.end('could not upload your file');
         }
@@ -89,5 +120,5 @@ app.post('/upload', function (req, res) {
 var port = process.env.PORT || 3000;
 
 http.listen(port, function () {
-    console.log('listening on *:' + port);
+    console.log('listening on 0.0.0.0:' + port);
 });
