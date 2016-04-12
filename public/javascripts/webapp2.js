@@ -445,7 +445,6 @@ var ChatItem = React.createClass({
 var ChatList = React.createClass({
     render: function () {
 
-
         this.props.messages.sort(function (a, b) {
             if (a.createdAt > b.createdAt) {
                 return 1;
@@ -456,6 +455,9 @@ var ChatList = React.createClass({
         });
 
         var messageNodes = this.props.messages.map(function (chat) {
+            if (!('createdAt' in chat)) {
+                chat.createdAt = Date.now();
+            }
             return (
                 <ChatItem
                     fromUser={chat.fromUser}
@@ -496,7 +498,8 @@ var MessageInput = React.createClass({
                 var message = {
                     content: this.state.value,
                     toUser: this.props.chattingWith.uid,
-                    fromUser: Lockr.get('session').uid
+                    fromUser: Lockr.get('session').uid,
+                    createdAt: Date.now()
                 };
                 this.props.onMessageDispatch(message);
                 dispatchMessage(message);
@@ -507,6 +510,13 @@ var MessageInput = React.createClass({
             console.log("Emiting the event of typing for " + JSON.stringify(Lockr.get('session').uid));
             socket.emit('writing', {uid: Lockr.get('session').uid});
         }
+    },
+    handleUploadButtonClick: function (e) {
+        this.refs.fileInputButton.click();
+    },
+    handleFileInput: function () {
+        var fileList = this.refs.fileInputButton.files;
+        console.log(fileList);
     },
     render: function () {
         var inputBockStyle = {
@@ -531,6 +541,10 @@ var MessageInput = React.createClass({
             fontSize: "16px"
         };
 
+        var fileInputStyle = {
+            display: "none"
+        };
+
         return (
             <div className="input-group" style={inputBockStyle}>
                 <input
@@ -543,8 +557,10 @@ var MessageInput = React.createClass({
                     placeholder="Type a message..."/>
                 <div className="input-group-btn">
                     <div className="input-group-btn" role="group">
+                        <input type="file" style={fileInputStyle} ref="fileInputButton"
+                               onChange={this.handleFileInput}/>
                         <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                style={actionButtonStyle}>
+                                style={actionButtonStyle} onClick={this.handleUploadButtonClick}>
                             <span className="glyphicon glyphicon-paperclip whiteish"></span>
                         </button>
                     </div>

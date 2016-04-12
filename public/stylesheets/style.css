@@ -1,7 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
 body {
 
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background: url("/images/ignasi_pattern_s.png");
+    font-family: 'Lato', sans-serif;
 }
 
 #content {
