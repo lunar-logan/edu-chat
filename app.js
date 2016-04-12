@@ -12,6 +12,17 @@ var _mookit = require('./lib/mookit');
 var socketChat = require('./lib/socket-chat')(io);
 var libChat = require('./lib/libchat');
 
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, '/uploads');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + '_' + Date.now());
+    }
+});
+var upload = multer({storage: storage, fileSize: 2 * 1024 * 1024}).single('payload');
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -63,6 +74,17 @@ app.post('/api/users', function (req, res) {
         }
     });
 });
+
+app.post('/upload', function (req, res) {
+    upload(req, res, function (err) {
+        if(err) {
+            console.log(err);
+            return res.end('could not upload your file');
+        }
+        res.end('File uploaded suc')
+    });
+});
+
 
 var port = process.env.PORT || 3000;
 

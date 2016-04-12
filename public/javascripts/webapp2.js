@@ -516,6 +516,8 @@ var MessageInput = React.createClass({
     },
     handleFileInput: function () {
         var fileList = this.refs.fileInputButton.files;
+        
+
         console.log(fileList);
     },
     render: function () {
