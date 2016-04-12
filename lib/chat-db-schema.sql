@@ -59,3 +59,11 @@ create table if not exists inbox (
     FOREIGN KEY(fromUser) REFERENCES users(uid) ON DELETE CASCADE,    -- comment this line after testing
     FOREIGN KEY(toUser) REFERENCES users(uid) ON DELETE CASCADE    -- comment this line after testing
 );
+
+create table if not exists uploads (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    filepath VARCHAR(255) NOT NULL,
+    fromUser INTEGER NOT NULL,
+    toUser INTEGER NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

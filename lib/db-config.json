@@ -3,5 +3,6 @@
   "database": "edu-chat",
   "username": "root",
   "password": "",
-  "dialect": "mysql"
+  "dialect": "mysql",
+  "connectionUrl": "mysql://root:@localhost:3306/edu"
 }
