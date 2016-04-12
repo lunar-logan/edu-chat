@@ -516,8 +516,25 @@ var MessageInput = React.createClass({
     },
     handleFileInput: function () {
         var fileList = this.refs.fileInputButton.files;
-        
-
+        if (fileList.length === 1) {
+            var formData = new FormData();
+            formData.append('payload', fileList[0]);
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (jqXHR, textStatus, error) {
+                    console.log(textStatus);
+                    console.log(error);
+                }
+            });
+        }
         console.log(fileList);
     },
     render: function () {
