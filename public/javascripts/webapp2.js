@@ -666,7 +666,7 @@ var Messenger = React.createClass({
         var self = this;
         socket.on('private message', function (msg) {
             L(msg);
-            if (msg.fromUser === self.state.chattingWith.uid) {
+            if (msg.fromUser == self.state.chattingWith.uid) {
                 self.setState(function (prevState, curProps) {
                     var messages = prevState.messages;
                     return messages.push(msg);
@@ -701,9 +701,6 @@ var Messenger = React.createClass({
             } else {
                 self.setState(function (prevState, curProps) {
                     return {messages: [], chattingWith: {uid: user.uid, username: user.username}};
-                    // Hello world
-                    // I dont understand what is haooeneingf
-                    // it all started since i 
                 });
             }
         });
