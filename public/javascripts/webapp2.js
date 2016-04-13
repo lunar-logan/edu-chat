@@ -258,7 +258,7 @@ var OnlineUsersList = React.createClass({
         self.listNodes = onlineUsers.map(function (user) {
             return (
                 <OnlineUser id={user.uid}
-                            key={user.uid}
+                            key={user.id}
                             username={user.username}
                             lastMessage={'last active 4h'}
                             userSelected={self.handleUserSelected}
@@ -415,7 +415,7 @@ var ChatItem = React.createClass({
         );
     },
     render: function () {
-        var curUserId = Lockr.get('session').uid;
+        var curUserId = getUserId();
         var chatItemStyle = {
             border: "none",
             borderRadius: 0,
@@ -701,6 +701,9 @@ var Messenger = React.createClass({
             } else {
                 self.setState(function (prevState, curProps) {
                     return {messages: [], chattingWith: {uid: user.uid, username: user.username}};
+                    // Hello world
+                    // I dont understand what is haooeneingf
+                    // it all started since i 
                 });
             }
         });
@@ -794,6 +797,7 @@ function cbOnLoginSuccess() {
 }
 
 $(document).ready(function () {
+
     emoji.sheet_path = '/images/emoji/sheet_apple_64.png';
     emoji.use_sheet = true;
 

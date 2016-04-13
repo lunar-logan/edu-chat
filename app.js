@@ -76,17 +76,23 @@ app.post('/api/inbox', function (req, res) {
 
     models.Inbox.findAll({
         where: {
-            fromUser: user,
-            $and: {
-                toUser: withUser
-            },
-            $or: {
-                fromUser: withUser,
-                $and: {
-                    toUser: user
+            $or: [
+                {
+                    fromUser: user,
+                    $and: {
+                        toUser: withUser
+                    }
+                },
+                {
+                    fromUser: withUser,
+                    $and: {
+                        toUser: user
+                    }
                 }
-            }
-        }
+            ]
+        },
+        order: [['createdAt', 'DESC']],
+        limit: 15
     }).then(function (messages) {
         if (messages) {
             res.json(messages);
