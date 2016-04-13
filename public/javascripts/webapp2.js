@@ -422,7 +422,7 @@ var ChatItem = React.createClass({
             background: "transparent"
         };
 
-        if (curUserId === this.props.fromUser) {
+        if (curUserId == this.props.fromUser) {
             return (
                 <li className="list-group-item" style={chatItemStyle}>
                     {this.getLeftItem()}
@@ -465,7 +465,7 @@ var ChatList = React.createClass({
                     fromUser={chat.fromUser}
                     content={chat.content}
                     ts={chat.ts}
-                    key={chat.id}
+                    // key={Date.now()}
                     fromUsername={chat.fromUsername}/>
             );
         });
@@ -500,7 +500,8 @@ var MessageInput = React.createClass({
                 var message = {
                     content: this.state.value,
                     toUser: this.props.chattingWith.uid,
-                    fromUser: getUserId()
+                    fromUser: getUserId(),
+                    createdAt: Date.now()
                 };
                 this.props.onMessageDispatch(message);
                 dispatchMessage(message);
@@ -691,9 +692,17 @@ var Messenger = React.createClass({
             rangeStart: 0
         }, function (data) {
             if (data) {
-                data.map(function (m) {
-                    return {toUser: m.uid, fromUser: m.fromUser, content: m.content, ts: m.createdAt};
+                console.log("Messages received from server: ");
+                data = data.map(function (m) {
+                    return {
+                        toUser: m.uid,
+                        fromUser: m.fromUser,
+                        content: m.content,
+                        ts: m.createdAt,
+                        createdAt: Date.parse(m.createdAt)
+                    };
                 });
+                console.log(data);
                 self.setState(function (prevState, curProps) {
                     return {messages: data, chattingWith: {uid: user.uid, username: user.username}};
                 });
