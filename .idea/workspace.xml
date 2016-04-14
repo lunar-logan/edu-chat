@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1551d2ac-b8c8-417f-b697-efea122caeb5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/models.js" afterPath="$PROJECT_DIR$/lib/models.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mookit.js" afterPath="$PROJECT_DIR$/lib/mookit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/socket-chat.js" afterPath="$PROJECT_DIR$/lib/socket-chat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/front-lib.js" afterPath="$PROJECT_DIR$/public/javascripts/front-lib.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/webapp2.js" afterPath="$PROJECT_DIR$/public/javascripts/webapp2.js" />
     </list>
     <ignored path="EduChat.iws" />
@@ -29,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1176">
-              <caret line="198" column="3" selection-start-line="198" selection-start-column="3" selection-end-line="198" selection-end-column="3" />
+            <state relative-caret-position="258">
+              <caret line="146" column="24" selection-start-line="146" selection-start-column="23" selection-end-line="146" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -59,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7585">
-              <caret line="552" column="30" selection-start-line="552" selection-start-column="30" selection-end-line="552" selection-end-column="30" />
+            <state relative-caret-position="261">
+              <caret line="387" column="56" selection-start-line="387" selection-start-column="56" selection-end-line="387" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -141,8 +135,8 @@
         <option value="$PROJECT_DIR$/lib/mookit.js" />
         <option value="$PROJECT_DIR$/public/javascripts/front-lib.js" />
         <option value="$PROJECT_DIR$/lib/socket-chat.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
       </list>
     </option>
   </component>
@@ -375,12 +369,12 @@
       <workItem from="1460552053626" duration="218000" />
       <workItem from="1460552315430" duration="8589000" />
       <workItem from="1460611503802" duration="606000" />
-      <workItem from="1460616503696" duration="22518000" />
+      <workItem from="1460616503696" duration="24859000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="170025000" />
+    <option name="totallyTimeSpent" value="172366000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -773,18 +767,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7585">
-          <caret line="552" column="30" selection-start-line="552" selection-start-column="30" selection-end-line="552" selection-end-column="30" />
+        <state relative-caret-position="258">
+          <caret line="146" column="24" selection-start-line="146" selection-start-column="23" selection-end-line="146" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1176">
-          <caret line="198" column="3" selection-start-line="198" selection-start-column="3" selection-end-line="198" selection-end-column="3" />
+        <state relative-caret-position="261">
+          <caret line="387" column="56" selection-start-line="387" selection-start-column="56" selection-end-line="387" selection-end-column="56" />
           <folding />
         </state>
       </provider>

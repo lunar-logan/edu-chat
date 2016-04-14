@@ -348,6 +348,13 @@ var ChatItem = React.createClass({
             __html: rawHtml
         };
     },
+    getFileUrl: function () {
+        var self = this;
+        if (self.props.isFile) {
+            return "/api/object?id=" + self.props.id;
+        }
+        return null;
+    },
     getLeftItem: function () {
         var itemStyle = {
             margin: "4px"
@@ -367,17 +374,36 @@ var ChatItem = React.createClass({
             minWidth: "0%",
             maxWidth: "100%"
         };
-        return (
-            <div className="row" style={itemStyle}>
-                <div className="col-sm-1">
-                    <img src="" width="32" style={imgStyle}/>
+        if (this.props.isFile) {
+            var isImage = this.props.mimeType.startsWith("image");
+            var url = this.getFileUrl();
+
+            return (
+                <div className="row" style={itemStyle}>
+                    <div className="col-sm-1">
+                        <img src="" width="32" style={imgStyle}/>
+                    </div>
+                    <div className="col-sm-6">
+                        <span style={msgStyle}>
+                            <a href={url} target="_blank">{isImage ? <img src={url} width='200px' alt={url}/> : url}</a>
+                        </span>
+                    </div>
+                    <div className="col-sm-5"></div>
                 </div>
-                <div className="col-sm-6">
-                    <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
+            );
+        } else {
+            return (
+                <div className="row" style={itemStyle}>
+                    <div className="col-sm-1">
+                        <img src="" width="32" style={imgStyle}/>
+                    </div>
+                    <div className="col-sm-6">
+                        <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
+                    </div>
+                    <div className="col-sm-5"></div>
                 </div>
-                <div className="col-sm-5"></div>
-            </div>
-        );
+            );
+        }
     },
     getRightItem: function () {
 
@@ -402,17 +428,36 @@ var ChatItem = React.createClass({
             float: "right"
             // boxShadow: "0 0 4px #d2d2d2"
         };
-        return (
-            <div className="row" style={itemStyle}>
-                <div className="col-sm-5"></div>
-                <div className="col-sm-6">
-                    <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
+        if (this.props.isFile) {
+            var isImage = this.props.mimeType.startsWith("image");
+            var url = this.getFileUrl();
+
+            return (
+                <div className="row" style={itemStyle}>
+                    <div className="col-sm-5"></div>
+                    <div className="col-sm-6">
+                        <span style={msgStyle}>
+                            <a href={url}>{isImage ? <img src={url}/> : ''}</a>
+                        </span>
+                    </div>
+                    <div className="col-sm-1">
+                        <img src="" width="32" style={imgStyle}/>
+                    </div>
                 </div>
-                <div className="col-sm-1">
-                    <img src="" width="32" style={imgStyle}/>
+            );
+        } else {
+            return (
+                <div className="row" style={itemStyle}>
+                    <div className="col-sm-5"></div>
+                    <div className="col-sm-6">
+                        <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
+                    </div>
+                    <div className="col-sm-1">
+                        <img src="" width="32" style={imgStyle}/>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     },
     render: function () {
         var curUserId = getUserId();
@@ -462,9 +507,12 @@ var ChatList = React.createClass({
             }
             return (
                 <ChatItem
+                    id={chat.id}
                     fromUser={chat.fromUser}
                     content={chat.content}
                     ts={chat.ts}
+                    mimeType={chat.mimeType}
+                    isFile={chat.isFile}
                     // key={Date.now()}
                     fromUsername={chat.fromUsername}/>
             );
@@ -703,9 +751,12 @@ var Messenger = React.createClass({
                 console.log("Messages received from server: ");
                 data = data.map(function (m) {
                     return {
-                        toUser: m.uid,
+                        id: m.id,
+                        toUser: m.toUser,
                         fromUser: m.fromUser,
                         content: m.content,
+                        mimeType: m.mimeType,
+                        isFile: m.isFile,
                         ts: m.createdAt,
                         createdAt: Date.parse(m.createdAt)
                     };
