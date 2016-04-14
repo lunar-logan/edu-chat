@@ -260,7 +260,7 @@ var OnlineUsersList = React.createClass({
                 <OnlineUser id={parseInt(user.uid)}
                             key={user.id}
                             username={user.username}
-                            lastMessage={'last active 4h'}
+                            lastMessage={user.updatedAt}
                             userSelected={self.handleUserSelected}
                             chattingWith={self.props.chattingWith}/>
             );
@@ -513,6 +513,7 @@ var ChatList = React.createClass({
                     ts={chat.ts}
                     mimeType={chat.mimeType}
                     isFile={chat.isFile}
+                    createdAt={chat.createdAt}
                     // key={Date.now()}
                     fromUsername={chat.fromUsername}/>
             );
@@ -726,7 +727,8 @@ var Messenger = React.createClass({
         var self = this;
         socket.on('private message', function (msg) {
             L(msg);
-            if (msg.fromUser == self.state.chattingWith.uid) {
+            if (msg.fromUser == self.state.chattingWith.uid && msg.createdAt) {
+                msg.createdAt = Date.parse(msg.createdAt) || msg.createdAt;
                 self.setState(function (prevState, curProps) {
                     var messages = prevState.messages;
                     return messages.push(msg);
