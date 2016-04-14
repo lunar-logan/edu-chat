@@ -3,6 +3,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
+var fs = require('fs');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -43,10 +44,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Route definitions begin
 
 app.get('/', function (req, res) {
-    console.log(req.cookies);
     mookit.authenticate(req.cookies, function (val) {
         if (val) {
             req.session.authToken = req.cookies.token;
+            req.session.eduId = val.uid;
+            res.cookie('eduId', val.uid);
             res.sendFile(path.join(__dirname, 'views', 'index.html'));
         } else {
             res.send('Sorry, you are not authorized');
@@ -75,42 +77,51 @@ app.get('/api/users/active', function (req, res) {
     });
 });
 
+
 /**
  * Returns the private messages from the inbox
  */
 app.post('/api/inbox', function (req, res) {
-    var user = req.body.uid;
-    var withUser = req.body.withUid;
-    var rangeStart = parseInt(req.body.rangeStart);
+    if (req.session.authToken) {
+        var user = req.body.uid;
+        var withUser = req.body.withUid;
+        var rangeStart = parseInt(req.body.rangeStart);
 
-    models.Inbox.findAll({
-        where: {
-            $or: [
-                {
-                    fromUser: user,
-                    $and: {
-                        toUser: withUser
+        models.Inbox.findAll({
+            where: {
+                $or: [
+                    {
+                        fromUser: user,
+                        $and: {
+                            toUser: withUser
+                        }
+                    },
+                    {
+                        fromUser: withUser,
+                        $and: {
+                            toUser: user
+                        }
                     }
-                },
-                {
-                    fromUser: withUser,
-                    $and: {
-                        toUser: user
-                    }
-                }
-            ]
-        },
-        order: [['createdAt', 'DESC']],
-        limit: 15
-    }).then(function (messages) {
-        if (messages) {
-            res.json(messages);
-        } else {
-            res.json([]);
-        }
-    });
+                ]
+            },
+            order: [['createdAt', 'DESC']],
+            limit: 15
+        }).then(function (messages) {
+            if (messages) {
+                res.json(messages);
+            } else {
+                res.json([]);
+            }
+        });
+    } else {
+        res.json({
+            code: -1,
+            msg: 'You are not authorized to view the content'
+        });
+    }
 });
 
+// TODO: Remove this route definition, seems its of NO USE!!
 app.post('/api/users', function (req, res) {
     mookit.authenticate(req.body, function (d) {
         if (!d) {
@@ -121,6 +132,39 @@ app.post('/api/users', function (req, res) {
     });
 });
 
+app.get('/api/object', function (req, res) {
+    if (req.session.authToken || req.query.clc) {
+        var objectId = parseInt(req.query.id);
+        if (objectId) {
+            models.Inbox.findOne({
+                where: {id: objectId}
+            }).then(function (obj) {
+                if (obj && obj.isFile) {
+                    var filePath = path.join(process.cwd(), 'uploads', obj.content);
+                    res.setHeader('Content-Type', obj.mimeType);
+                    var filestream = fs.createReadStream(filePath);
+                    filestream.pipe(res);
+                } else {
+                    res.json({
+                        code: -1,
+                        msg: "Object with the given id was not found"
+                    });
+                }
+            });
+        } else {
+            res.json({
+                code: -1,
+                msg: "Bad request. Object Id not specified"
+            });
+        }
+    } else {
+        res.json({
+            code: -1,
+            msg: 'Not authorized to view the content. Try logging in first'
+        });
+    }
+});
+
 app.post('/upload', function (req, res) {
     if (req.session.authToken) {
         upload(req, res, function (err) {
@@ -129,14 +173,14 @@ app.post('/upload', function (req, res) {
                 return res.json({code: -1, msg: 'Could not upload your file'});
             }
             models.Inbox.create({
-                fromUser: parseInt(req.cookies.uid),
+                fromUser: parseInt(req.session.eduId),
                 toUser: parseInt(req.body.toUser),
                 content: req.file.filename,
                 mimeType: req.file.mimetype,
                 isFile: true
             }).then(function (so) {
                 if (so) {
-                    res.json({code: 0, msg: 'Object uploaded with id: ' + so.id});
+                    res.json({code: 0, msg: so});
                 } else {
                     res.json({code: -1, msg: 'Object could not be uploaded'});
                 }

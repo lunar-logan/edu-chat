@@ -495,12 +495,13 @@ var MessageInput = React.createClass({
     handleKeyDown: function (e) {
         if (e.keyCode === 13) { // Enter key
             var currentMessage = this.state.value;
-            if (currentMessage && currentMessage !== '') {
+            if (currentMessage && currentMessage !== '') { // If the message typed is not empty
                 console.log("Sending message to: " + JSON.stringify(this.props.chattingWith));
                 var message = {
                     content: this.state.value,
                     toUser: this.props.chattingWith.uid,
                     fromUser: getUserId(),
+                    isFile: false,
                     createdAt: Date.now()
                 };
                 this.props.onMessageDispatch(message);
@@ -532,6 +533,11 @@ var MessageInput = React.createClass({
                 processData: false,
                 success: function (data) {
                     console.log(data);
+                    if (data.code === 0) {
+                        socket.emit('private message', data.msg);
+                    } else {
+                        console.log("Could not upload the file, reason: " + data.msg);
+                    }
                 },
                 error: function (jqXHR, textStatus, error) {
                     console.log(textStatus);

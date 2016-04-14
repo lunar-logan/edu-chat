@@ -1,7 +1,8 @@
 function isUserAuthenticated() {
     return docCookies.getItem("uid") &&
         docCookies.getItem("username") &&
-        docCookies.getItem("token");
+        docCookies.getItem("token") &&
+        docCookies.getItem("eduId");
 }
 
 function getUserName() {
@@ -9,7 +10,7 @@ function getUserName() {
 }
 
 function getUserId() {
-    return docCookies.getItem('uid');
+    return docCookies.getItem('eduId');
 }
 
 function getMookitToken() {
@@ -27,5 +28,6 @@ function getUser() {
 function logout() {
     docCookies.removeItem('token');
     docCookies.removeItem('uid');
+    docCookies.removeItem('eduId');
     docCookies.removeItem('username');
 }
