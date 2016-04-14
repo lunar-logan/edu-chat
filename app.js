@@ -13,7 +13,7 @@ var session = require('express-session');
 
 var mookit = require('./lib/mookit');
 var socketChat = require('./lib/socket-chat')(io);
-var models = require('./lib/eclib');
+var models = require('./lib/models');
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -26,6 +26,8 @@ var storage = multer.diskStorage({
         callback(null, Math.random().toString(36).slice(2, 10) + '_' + md5sum.digest('hex') + '_' + Date.now());
     }
 });
+// Set the upload limit to 2 MiB and the field name to payload
+// TODO: add more filters on the file
 var upload = multer({storage: storage, fileSize: 2 * 1024 * 1024}).single('payload');
 
 // uncomment after placing your favicon in /public
@@ -126,11 +128,12 @@ app.post('/upload', function (req, res) {
                 console.log(err);
                 return res.json({code: -1, msg: 'Could not upload your file'});
             }
-            models.SharedObject.create({
+            models.Inbox.create({
                 fromUser: parseInt(req.cookies.uid),
                 toUser: parseInt(req.body.toUser),
-                storagePath: req.file.filename,
-                mimeType: req.file.mimetype
+                content: req.file.filename,
+                mimeType: req.file.mimetype,
+                isFile: true
             }).then(function (so) {
                 if (so) {
                     res.json({code: 0, msg: 'Object uploaded with id: ' + so.id});

@@ -257,7 +257,7 @@ var OnlineUsersList = React.createClass({
 
         self.listNodes = onlineUsers.map(function (user) {
             return (
-                <OnlineUser id={user.uid}
+                <OnlineUser id={parseInt(user.uid)}
                             key={user.id}
                             username={user.username}
                             lastMessage={'last active 4h'}
@@ -522,7 +522,7 @@ var MessageInput = React.createClass({
             var formData = new FormData();
             formData.append('payload', fileList[0]);
             formData.append('toUser', this.props.chattingWith.uid);
-            
+
             $.ajax({
                 url: '/upload',
                 type: 'POST',
