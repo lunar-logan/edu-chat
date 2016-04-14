@@ -436,8 +436,8 @@ var ChatItem = React.createClass({
                 <div className="row" style={itemStyle}>
                     <div className="col-sm-5"></div>
                     <div className="col-sm-6">
-                        <span style={msgStyle}>
-                            <a href={url}>{isImage ? <img src={url}/> : ''}</a>
+                       <span style={msgStyle}>
+                            <a href={url} target="_blank">{isImage ? <img src={url} width='200px' alt={url}/> : url}</a>
                         </span>
                     </div>
                     <div className="col-sm-1">
@@ -567,6 +567,7 @@ var MessageInput = React.createClass({
     },
     handleFileInput: function () {
         var fileList = this.refs.fileInputButton.files;
+        var self = this;
         if (fileList.length === 1) {
             var formData = new FormData();
             formData.append('payload', fileList[0]);
@@ -583,6 +584,7 @@ var MessageInput = React.createClass({
                     console.log(data);
                     if (data.code === 0) {
                         socket.emit('private message', data.msg);
+                        self.props.onMessageDispatch(data.msg);
                     } else {
                         console.log("Could not upload the file, reason: " + data.msg);
                     }
@@ -593,6 +595,7 @@ var MessageInput = React.createClass({
                 }
             });
         }
+        console.log("Following file(s) have been uploaded");
         console.log(fileList);
     },
     render: function () {
@@ -749,6 +752,7 @@ var Messenger = React.createClass({
         }, function (data) {
             if (data) {
                 console.log("Messages received from server: ");
+                // console.log(data);
                 data = data.map(function (m) {
                     return {
                         id: m.id,
