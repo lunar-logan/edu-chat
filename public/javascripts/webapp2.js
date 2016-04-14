@@ -521,6 +521,8 @@ var MessageInput = React.createClass({
         if (fileList.length === 1) {
             var formData = new FormData();
             formData.append('payload', fileList[0]);
+            formData.append('toUser', this.props.chattingWith.uid);
+            
             $.ajax({
                 url: '/upload',
                 type: 'POST',
@@ -772,7 +774,7 @@ var Messenger = React.createClass({
                     <div className="col-md-3" style={leftPanelStyle}>
                         <FilterableOnlineUsersList
                             activeUsersUrl="/api/users/active"
-                            pollInterval={5000}
+                            pollInterval={8000}
                             userSelected={this.handleUserSelected}
                             chattingWith={this.state.chattingWith}/>
                     </div>

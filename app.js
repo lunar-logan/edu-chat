@@ -7,18 +7,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var crypto = require('crypto');
+var multer = require('multer');
+var session = require('express-session');
 
 var mookit = require('./lib/mookit');
 var socketChat = require('./lib/socket-chat')(io);
 var models = require('./lib/eclib');
 
-var multer = require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, path.join(process.cwd(), 'uploads'));
     },
     filename: function (req, file, callback) {
-        callback(null, file.fieldname + '_' + Date.now());
+        var md5sum = crypto.createHash('md5');
+        md5sum.update(file.originalname);
+
+        callback(null, Math.random().toString(36).slice(2, 10) + '_' + md5sum.digest('hex') + '_' + Date.now());
     }
 });
 var upload = multer({storage: storage, fileSize: 2 * 1024 * 1024}).single('payload');
@@ -29,6 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(session({secret: 'keyboard-cat', cookie: {}}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -38,6 +44,7 @@ app.get('/', function (req, res) {
     console.log(req.cookies);
     mookit.authenticate(req.cookies, function (val) {
         if (val) {
+            req.session.authToken = req.cookies.token;
             res.sendFile(path.join(__dirname, 'views', 'index.html'));
         } else {
             res.send('Sorry, you are not authorized');
@@ -113,13 +120,28 @@ app.post('/api/users', function (req, res) {
 });
 
 app.post('/upload', function (req, res) {
-    upload(req, res, function (err) {
-        if (err) {
-            console.log(err);
-            return res.end('could not upload your file');
-        }
-        res.end('File uploaded suc')
-    });
+    if (req.session.authToken) {
+        upload(req, res, function (err) {
+            if (err) {
+                console.log(err);
+                return res.json({code: -1, msg: 'Could not upload your file'});
+            }
+            models.SharedObject.create({
+                fromUser: parseInt(req.cookies.uid),
+                toUser: parseInt(req.body.toUser),
+                storagePath: req.file.filename,
+                mimeType: req.file.mimetype
+            }).then(function (so) {
+                if (so) {
+                    res.json({code: 0, msg: 'Object uploaded with id: ' + so.id});
+                } else {
+                    res.json({code: -1, msg: 'Object could not be uploaded'});
+                }
+            });
+        });
+    } else {
+        res.json({code: -1, msg: "Aapko upload krne ka adhikaar nahi hai"});
+    }
 });
 
 

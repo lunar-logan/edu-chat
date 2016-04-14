@@ -19,6 +19,8 @@
     "colors": "^1.1.2",
     "node-wikipedia": "0.0.2",
     "multer": "^1.1.0",
-    "promise": "^7.1.1"
+    "promise": "^7.1.1",
+    "crypto": "0.0.3",
+    "express-session": "^1.13.0"
   }
 }
