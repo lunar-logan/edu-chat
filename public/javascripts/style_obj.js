@@ -30,3 +30,39 @@ var leftPanelStyle = {
     maxHeight: "80vh",
     overflow: "auto"
 };
+
+var imgFileStyle = {
+    borderRadius: "16px",
+    color: "hotpink",
+    border: "solid 1px #ccc"
+};
+
+var leftFileStyle = {
+    background: "#337AB7",
+    padding: "16px",
+    borderRadius: "16px",
+    color: "#ffffff",
+    textDecoration: "none",
+    display: "table"
+
+};
+
+var rightFileStyle = {
+    border: "solid 1px #ccc",
+    padding: "16px",
+    borderRadius: "16px",
+    color: "#000",
+    textDecoration: "none",
+    display: "table"
+};
+
+var leftMessageTime = {
+    textAlign: "right",
+    color: "#ccc",
+    // fontSize: "11px"
+};
+var rightMessageTime = {
+    textAlign: "left",
+    color: "#ccc",
+    // fontSize: "11px"
+};

@@ -314,8 +314,7 @@ var FilterableOnlineUsersList = React.createClass({
                     filterText={this.state.filterText}
                     userSelected={this.props.userSelected}
                     chattingWith={this.props.chattingWith}
-                    onMessageArrival={this.handleMessageArrival}
-                />
+                    onMessageArrival={this.handleMessageArrival}/>
             </div>
         );
     }
@@ -368,46 +367,51 @@ var ChatItem = React.createClass({
         };
         var imgStyle = {
             backgroundColor: "#ffffff",
-            borderRadius: "16px",
-            border: "solid 1px #337AB7"
+            borderRadius: "16px"
+            // border: "solid 1px #337AB7"
             // boxShadow: "0 0 4px #d2d2d2"
         };
         var msgStyle = {
             padding: "8px 16px",
-            borderRadius: "2px",
+            borderRadius: "16px",
             background: "#337AB7",
             color: "#ffffff",
             display: "table",
             minWidth: "0%",
             maxWidth: "100%"
         };
+
         if (this.props.isFile) {
             var isImage = this.props.mimeType.startsWith("image");
             var url = this.getFileUrl();
 
             return (
                 <div className="row" style={itemStyle}>
-                    <div className="col-sm-1">
-                        <img src="" width="32" style={imgStyle}/>
+                    <div className="col-xs-1">
+                        <img src="http://www.gravatar.com/avatar?d=mm" width="32" style={imgStyle}/>
                     </div>
                     <div className="col-sm-6">
-                        <span style={msgStyle}>
-                            <a href={url} target="_blank">{isImage ? <img src={url} width='200px' alt={url}/> : url}</a>
+                        <span>
+                            <a href={url} target="_blank">{isImage ?
+                                <img src={url} width='200px' alt={url} style={imgFileStyle}/> :
+                                <span style={leftFileStyle}><span
+                                    className="glyphicon glyphicon-file white"></span>&nbsp;&nbsp;
+                                    Attachment</span>}</a>
                         </span>
                     </div>
-                    <div className="col-sm-5"></div>
+                    <div className="col-sm-5" style={leftMessageTime}>{moment(this.props.createdAt).fromNow()}</div>
                 </div>
             );
         } else {
             return (
                 <div className="row" style={itemStyle}>
-                    <div className="col-sm-1">
-                        <img src="" width="32" style={imgStyle}/>
+                    <div className="col-xs-1">
+                        <img src="http://www.gravatar.com/avatar?d=mm" width="32" style={imgStyle}/>
                     </div>
                     <div className="col-sm-6">
                         <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
                     </div>
-                    <div className="col-sm-5"></div>
+                    <div className="col-sm-5" style={leftMessageTime}>{moment(this.props.createdAt).fromNow()}</div>
                 </div>
             );
         }
@@ -427,7 +431,7 @@ var ChatItem = React.createClass({
             background: "#ffffff",
             border: "solid 1px #ccc",
             padding: "8px 16px",
-            borderRadius: "2px",
+            borderRadius: "16px",
             color: "#000",
             display: "table",
             minWidth: "0%",
@@ -441,26 +445,29 @@ var ChatItem = React.createClass({
 
             return (
                 <div className="row" style={itemStyle}>
-                    <div className="col-sm-5"></div>
+                    <div className="col-sm-5" style={rightMessageTime}>{moment(this.props.createdAt).fromNow()}</div>
                     <div className="col-sm-6">
                        <span style={msgStyle}>
-                            <a href={url} target="_blank">{isImage ? <img src={url} width='200px' alt={url}/> : url}</a>
+                            <a href={url} target="_blank">{isImage ?
+                                <img src={url} style={imgFileStyle} width='200px' alt={url}/> :
+                                <span style={rightFileStyle}><span
+                                    className="glyphicon glyphicon-file grey"></span>&nbsp;&nbsp;Attachment</span>}</a>
                         </span>
                     </div>
-                    <div className="col-sm-1">
-                        <img src="" width="32" style={imgStyle}/>
+                    <div className="col-xs-1">
+                        <img src="http://www.gravatar.com/avatar?d=mm" width="32" style={imgStyle}/>
                     </div>
                 </div>
             );
         } else {
             return (
                 <div className="row" style={itemStyle}>
-                    <div className="col-sm-5"></div>
+                    <div className="col-sm-5" style={rightMessageTime}>{moment(this.props.createdAt).fromNow()}</div>
                     <div className="col-sm-6">
                         <span style={msgStyle} dangerouslySetInnerHTML={this.rawMarkup()}></span>
                     </div>
-                    <div className="col-sm-1">
-                        <img src="" width="32" style={imgStyle}/>
+                    <div className="col-xs-1">
+                        <img src="http://www.gravatar.com/avatar?d=mm" width="32" style={imgStyle}/>
                     </div>
                 </div>
             );
