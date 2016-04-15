@@ -192,7 +192,8 @@ app.post('/upload', function (req, res) {
     }
 });
 
-app.get('/wiki', function (req, res) {
+
+app.get('/api/wiki', function (req, res) {
     var topic = req.query.topic;
     if (topic) {
         wiki.getUrl(topic, function (url) {
@@ -206,6 +207,7 @@ app.get('/wiki', function (req, res) {
         res.json({code: -1, msg: 'Topic not specified'});
     }
 });
+
 
 var port = process.env.PORT || 3000;
 
