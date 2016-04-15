@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1551d2ac-b8c8-417f-b697-efea122caeb5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/wikipedia.js" afterPath="$PROJECT_DIR$/lib/wikipedia.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="EduChat.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,16 +79,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="408">
               <caret line="24" column="2" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="out.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/out.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="17" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -400,12 +391,12 @@
       <workItem from="1460552315430" duration="8589000" />
       <workItem from="1460611503802" duration="606000" />
       <workItem from="1460616503696" duration="30178000" />
-      <workItem from="1460706888162" duration="9987000" />
+      <workItem from="1460706888162" duration="10054000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="187672000" />
+    <option name="totallyTimeSpent" value="187739000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
