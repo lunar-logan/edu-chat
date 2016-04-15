@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1551d2ac-b8c8-417f-b697-efea122caeb5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/socket-chat.js" afterPath="$PROJECT_DIR$/lib/socket-chat.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/webapp2.js" afterPath="$PROJECT_DIR$/public/javascripts/webapp2.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/models.js" afterPath="$PROJECT_DIR$/lib/models.js" />
     </list>
     <ignored path="EduChat.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,7 +63,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/models.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="337">
+              <caret line="167" column="26" selection-start-line="167" selection-start-column="26" selection-end-line="167" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="320">
@@ -127,7 +136,6 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/lib/eclib.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/lib/models.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/emoji.css" />
         <option value="$PROJECT_DIR$/lib/mookit.js" />
         <option value="$PROJECT_DIR$/out.json" />
@@ -139,6 +147,7 @@
         <option value="$PROJECT_DIR$/public/javascripts/style_obj.js" />
         <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
         <option value="$PROJECT_DIR$/lib/socket-chat.js" />
+        <option value="$PROJECT_DIR$/lib/models.js" />
       </list>
     </option>
   </component>
@@ -271,7 +280,7 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
-    <property name="SearchEverywhereHistoryKey" value="sty&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css&#10;inde&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;we&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/webapp2.js&#10;fron&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/front-lib.js&#10;socke&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/socket-chat.js&#10;models&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;index&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;style&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css" />
+    <property name="SearchEverywhereHistoryKey" value="model&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;sty&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css&#10;inde&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;we&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/webapp2.js&#10;fron&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/front-lib.js&#10;socke&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/socket-chat.js&#10;models&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;index&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;style&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -372,12 +381,12 @@
       <workItem from="1460552315430" duration="8589000" />
       <workItem from="1460611503802" duration="606000" />
       <workItem from="1460616503696" duration="30178000" />
-      <workItem from="1460706888162" duration="29144000" />
+      <workItem from="1460706888162" duration="30122000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="206829000" />
+    <option name="totallyTimeSpent" value="207807000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -701,14 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/models.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/front-lib.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -777,6 +778,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
           <caret line="265" column="40" selection-start-line="265" selection-start-column="28" selection-end-line="265" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/models.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="167" column="26" selection-start-line="167" selection-start-column="26" selection-end-line="167" selection-end-column="26" />
           <folding />
         </state>
       </provider>
