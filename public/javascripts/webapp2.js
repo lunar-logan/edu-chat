@@ -490,6 +490,9 @@ var ChatItem = React.createClass({
  * messages: A list of messages
  */
 var ChatList = React.createClass({
+    componentDidMount: function () {
+        // scroll_to(document.getElementById('message-list'));
+    },
     render: function () {
 
         this.props.messages.sort(function (a, b) {
@@ -527,7 +530,7 @@ var ChatList = React.createClass({
             marginBottom: 0
         };
         return (
-            <ul className="list-group" style={chatListStyle}>
+            <ul className="list-group" id="message-list" style={chatListStyle}>
                 {messageNodes}
             </ul>
         );

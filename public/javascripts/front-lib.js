@@ -31,3 +31,14 @@ function logout() {
     docCookies.removeItem('eduId');
     docCookies.removeItem('username');
 }
+
+/**
+ * @author http://stackoverflow.com/users/1066579/nrnazifi
+ * @see http://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
+ * @param div
+ */
+function scroll_to(div) {
+    if (div.scrollTop < div.scrollHeight - div.clientHeight)
+        div.scrollTop += 10; // move down
+
+}
