@@ -260,7 +260,7 @@ var OnlineUsersList = React.createClass({
                 <OnlineUser id={parseInt(user.uid)}
                             key={user.id}
                             username={user.username}
-                            lastMessage={user.updatedAt}
+                            lastMessage={moment(Date.parse(user.createdAt)).fromNow(true)}
                             userSelected={self.handleUserSelected}
                             chattingWith={self.props.chattingWith}/>
             );
