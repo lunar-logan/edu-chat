@@ -10,7 +10,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
 var multer = require('multer');
-var session = require('express-session');
+var session = require('express-session')({secret: 'keyboard-cat', cookie: {}});
+var sharedsession = require("express-socket.io-session");
+var colors = require('colors/safe');
 
 var mookit = require('./lib/mookit');
 var socketChat = require('./lib/socket-chat')(io);
@@ -38,8 +40,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(session({secret: 'keyboard-cat', cookie: {}}));
+app.use(session);
 app.use(express.static(path.join(__dirname, 'public')));
+
+io.use(sharedsession(session));
 
 
 // Route definitions begin

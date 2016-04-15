@@ -265,7 +265,8 @@ var OnlineUsersList = React.createClass({
                             lastMessage={moment(Date.parse(user.updatedAt)).fromNow(true)}
                             userSelected={self.handleUserSelected}
                             chattingWith={self.props.chattingWith}
-                            onMessageArrival={self.props.onMessageArrival}/>
+                            onMessageArrival={self.props.onMessageArrival}
+                            type={user.type}/>
             );
         });
         return (
@@ -287,6 +288,7 @@ var FilterableOnlineUsersList = React.createClass({
         var self = this;
         $.get(this.props.activeUsersUrl, function (data) {
             if (data) {
+                console.log(data);
                 self.setState(function (oldState, currentProps) {
                     return {filterText: oldState.filterText, users: data};
                 });
@@ -737,7 +739,7 @@ var ChatRoom = React.createClass({
 
 var Messenger = React.createClass({
     getInitialState: function () {
-        return {messages: [], chattingWith: {username: '', uid: ''}, rangeStart: 0};
+        return {messages: [], chattingWith: {username: '', uid: '', type: ''}, rangeStart: 0};
     },
     handleLogout: function (e) {
         Lockr.rm('session');

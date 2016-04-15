@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1551d2ac-b8c8-417f-b697-efea122caeb5" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/models.js" afterPath="$PROJECT_DIR$/lib/models.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mookit.js" afterPath="$PROJECT_DIR$/lib/mookit.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/socket-chat.js" afterPath="$PROJECT_DIR$/lib/socket-chat.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/webapp2.js" afterPath="$PROJECT_DIR$/public/javascripts/webapp2.js" />
     </list>
     <ignored path="EduChat.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,8 +31,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="47" column="15" selection-start-line="47" selection-start-column="15" selection-end-line="47" selection-end-column="15" />
+            <state relative-caret-position="-887">
+              <caret line="79" column="15" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -43,31 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mookit.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mookit.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/mookit.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1106">
-              <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/models.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="167" column="26" selection-start-line="167" selection-start-column="26" selection-end-line="167" selection-end-column="26" />
+            <state relative-caret-position="881">
+              <caret line="173" column="2" selection-start-line="173" selection-start-column="2" selection-end-line="173" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -76,8 +61,18 @@
       <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="265" column="40" selection-start-line="265" selection-start-column="28" selection-end-line="265" selection-end-column="40" />
+            <state relative-caret-position="237">
+              <caret line="290" column="34" selection-start-line="290" selection-start-column="34" selection-end-line="290" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/models.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2115">
+              <caret line="125" column="6" selection-start-line="125" selection-start-column="6" selection-end-line="125" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -96,8 +91,8 @@
       <file leaf-file-name="socket-chat.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/socket-chat.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1581">
-              <caret line="104" column="36" selection-start-line="104" selection-start-column="36" selection-end-line="104" selection-end-column="36" />
+            <state relative-caret-position="456">
+              <caret line="180" column="8" selection-start-line="180" selection-start-column="8" selection-end-line="180" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -137,17 +132,17 @@
         <option value="$PROJECT_DIR$/lib/eclib.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/public/stylesheets/emoji.css" />
-        <option value="$PROJECT_DIR$/lib/mookit.js" />
         <option value="$PROJECT_DIR$/out.json" />
         <option value="$PROJECT_DIR$/lib/wikipedia.js" />
         <option value="$PROJECT_DIR$/public/javascripts/front-lib.js" />
         <option value="$PROJECT_DIR$/views/index.html" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/public/javascripts/style_obj.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
-        <option value="$PROJECT_DIR$/lib/socket-chat.js" />
+        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/lib/models.js" />
+        <option value="$PROJECT_DIR$/lib/socket-chat.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
+        <option value="$PROJECT_DIR$/lib/mookit.js" />
       </list>
     </option>
   </component>
@@ -280,7 +275,7 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
-    <property name="SearchEverywhereHistoryKey" value="model&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;sty&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css&#10;inde&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;we&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/webapp2.js&#10;fron&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/front-lib.js&#10;socke&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/socket-chat.js&#10;models&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;index&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;style&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css" />
+    <property name="SearchEverywhereHistoryKey" value="mook&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/mookit.js&#10;mo&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;mod&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;pack&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/package.json&#10;app&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/app.js&#10;model&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;sty&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css&#10;inde&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;we&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/webapp2.js&#10;fron&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/javascripts/front-lib.js&#10;socke&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/socket-chat.js&#10;models&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/lib/models.js&#10;index&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/views/index.html&#10;style&#9;FILE&#9;file://E:/Coding/HTML Related/NodeJsApps/EduChat/public/stylesheets/style.css" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -381,12 +376,12 @@
       <workItem from="1460552315430" duration="8589000" />
       <workItem from="1460611503802" duration="606000" />
       <workItem from="1460616503696" duration="30178000" />
-      <workItem from="1460706888162" duration="30122000" />
+      <workItem from="1460706888162" duration="36003000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207807000" />
+    <option name="totallyTimeSpent" value="213688000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -670,14 +665,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/lib_in_usage">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/emoji.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -702,34 +689,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/front-lib.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -750,42 +713,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="47" column="15" selection-start-line="47" selection-start-column="15" selection-end-line="47" selection-end-column="15" />
+          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/mookit.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1106">
-          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
+        <state relative-caret-position="272">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/socket-chat.js">
+    <entry file="file://$PROJECT_DIR$/lib/lib_in_usage">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="104" column="36" selection-start-line="104" selection-start-column="36" selection-end-line="104" selection-end-column="36" />
+        <state relative-caret-position="102">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/front-lib.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="265" column="40" selection-start-line="265" selection-start-column="28" selection-end-line="265" selection-end-column="40" />
+        <state relative-caret-position="208">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/models.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="167" column="26" selection-start-line="167" selection-start-column="26" selection-end-line="167" selection-end-column="26" />
+        <state relative-caret-position="2115">
+          <caret line="125" column="6" selection-start-line="125" selection-start-column="6" selection-end-line="125" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/socket-chat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="180" column="8" selection-start-line="180" selection-start-column="8" selection-end-line="180" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="290" column="34" selection-start-line="290" selection-start-column="34" selection-end-line="290" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-887">
+          <caret line="79" column="15" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/mookit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="881">
+          <caret line="173" column="2" selection-start-line="173" selection-start-column="2" selection-end-line="173" selection-end-column="2" />
           <folding />
         </state>
       </provider>
