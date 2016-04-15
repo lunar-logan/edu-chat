@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300);
+
 body {
 
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -16,7 +17,7 @@ body {
     margin-left: auto;
     margin-right: auto;
 
-    background: transparent;
+    background: #EEEEEE;
 
     box-shadow: 0 0 3px #aaa;
 }
@@ -28,6 +29,10 @@ body {
 
 .whiteish, .whiteish a {
     color: #47b0ff;
+}
+
+.pinkish, .pinkish a {
+    color: hotpink;
 }
 
 .nav > li > a:hover {

@@ -123,6 +123,7 @@ var OnlineUser = React.createClass({
                     newState.unseenMessagesLabel = "" + newState.unseenMessagesCount;
                 }
                 self.setState(newState);
+                self.props.onMessageArrival(msg.fromUser);
             }
         });
     },
@@ -249,8 +250,9 @@ var OnlineUsersList = React.createClass({
     render: function () {
         var onlineUsers = [];
         var self = this;
+
         this.props.users.forEach(function (user) {
-            if (user.username.indexOf(self.props.filterText) !== -1) {
+            if (user && user.username && user.username.indexOf(self.props.filterText) !== -1) {
                 onlineUsers.push(user);
             }
         });
@@ -262,7 +264,8 @@ var OnlineUsersList = React.createClass({
                             username={user.username}
                             lastMessage={moment(Date.parse(user.createdAt)).fromNow(true)}
                             userSelected={self.handleUserSelected}
-                            chattingWith={self.props.chattingWith}/>
+                            chattingWith={self.props.chattingWith}
+                            onMessageArrival={self.props.onMessageArrival}/>
             );
         });
         return (
@@ -277,6 +280,8 @@ var OnlineUsersList = React.createClass({
 var FilterableOnlineUsersList = React.createClass({
     getInitialState: function () {
         return {filterText: '', users: []};
+    },
+    handleMessageArrival: function (userId) {
     },
     loadActiveUsers: function () {
         var self = this;
@@ -308,7 +313,9 @@ var FilterableOnlineUsersList = React.createClass({
                     users={this.state.users}
                     filterText={this.state.filterText}
                     userSelected={this.props.userSelected}
-                    chattingWith={this.props.chattingWith}/>
+                    chattingWith={this.props.chattingWith}
+                    onMessageArrival={this.handleMessageArrival}
+                />
             </div>
         );
     }
@@ -491,7 +498,6 @@ var ChatItem = React.createClass({
  */
 var ChatList = React.createClass({
     componentDidMount: function () {
-        // scroll_to(document.getElementById('message-list'));
     },
     render: function () {
 
@@ -524,7 +530,7 @@ var ChatList = React.createClass({
 
         var chatListStyle = {
             boxShadow: "none",
-            height: "73vh",
+            height: "74vh",
             overflow: "auto",
             borderRadius: 0,
             marginBottom: 0
@@ -690,24 +696,28 @@ var ChatRoom = React.createClass({
     },
 
     render: function () {
-        var chatTitleStyle = {
-            background: "#eeeeee",
-            overflow: "auto",
-            color: "hotpink",
-            fontWeight: "bold"
-
-        };
-
         var chatRootStyle = {
             background: "#ffffff"
         };
         return (
             <div className="chat-room" style={chatRootStyle}>
-                <div style={chatTitleStyle}>
-                    <p className="navbar-text">
-                        {this.props.chattingWith.username}
-                        <span className="is-writing">{this.state.isWriting}</span>
-                    </p>
+                <div className="container-fluid">
+                    <div className="row" style={chatTitleStyle}>
+                        <div className="col-sm-6">
+                            <span>{this.props.chattingWith.username}</span>
+                            <span className="is-writing">{this.state.isWriting}</span>
+                        </div>
+                        <div className="col-sm-4"></div>
+                        <div className="col-sm-2" style={loadMoreButtonGroupStyle}>
+                            <div className="btn-group" role="group">
+                                <button type="button" className="btn btn-default" style={buttonStyle}
+                                        title="Click to load previous messages" onClick={this.props.onLoadMoreMessages}>
+                                    <span className="glyphicon glyphicon-download pinkish"
+                                          style={glyphIconStyle}></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <ChatList messages={this.props.messages}/>
                 <MessageInput
@@ -720,7 +730,7 @@ var ChatRoom = React.createClass({
 
 var Messenger = React.createClass({
     getInitialState: function () {
-        return {messages: [], chattingWith: {username: '', uid: ''}};
+        return {messages: [], chattingWith: {username: '', uid: ''}, rangeStart: 0};
     },
     handleLogout: function (e) {
         Lockr.rm('session');
@@ -758,6 +768,7 @@ var Messenger = React.createClass({
             if (data) {
                 console.log("Messages received from server: ");
                 // console.log(data);
+                self.setState({rangeStart: data.length});
                 data = data.map(function (m) {
                     return {
                         id: m.id,
@@ -777,7 +788,7 @@ var Messenger = React.createClass({
 
             } else {
                 self.setState(function (prevState, curProps) {
-                    return {messages: [], chattingWith: {uid: user.uid, username: user.username}};
+                    return {messages: [], chattingWith: {uid: user.uid, username: user.username}, rangeStart: 0};
                 });
             }
         });
@@ -790,17 +801,52 @@ var Messenger = React.createClass({
             return {messages: messages, chattingWith: chattingWith};
         });
     },
+    onClickToLoadMoreMessages: function () {
+        var self = this;
+
+        // Load conversation from the persistent store
+        var currentUserId = getUserId();
+        var user = this.state.chattingWith;
+
+        $.post("/api/inbox", {
+            "uid": currentUserId,
+            withUid: user.uid,
+            rangeStart: self.state.rangeStart
+        }, function (data) {
+            if (data) {
+                self.setState({rangeStart: self.state.rangeStart + data.length});
+                data = data.map(function (m) {
+                    return {
+                        id: m.id,
+                        toUser: m.toUser,
+                        fromUser: m.fromUser,
+                        content: m.content,
+                        mimeType: m.mimeType,
+                        isFile: m.isFile,
+                        ts: m.createdAt,
+                        createdAt: Date.parse(m.createdAt)
+                    };
+                });
+                self.setState(function (prevState, curProps) {
+                    var messages = self.state.messages;
+                    data.forEach(function (m) {
+                        messages.push(m);
+                    });
+                    return {messages: messages, chattingWith: {uid: user.uid, username: user.username}};
+                });
+
+            } else {
+                self.setState(function (prevState, curProps) {
+                    return {messages: [], chattingWith: {uid: user.uid, username: user.username}, rangeStart: 0};
+                });
+            }
+        });
+    },
     render: function () {
         var onlineUsersListStyle = {
             overflow: "auto",
             background: "hotpink",
             padding: "0"
-        };
-
-        var leftPanelStyle = {
-            background: "#27618d",
-            maxHeight: "80vh",
-            overflow: "auto"
         };
 
         var topHeaderStyle = {
@@ -819,6 +865,7 @@ var Messenger = React.createClass({
             paddingTop: "2px",
             paddingBottom: "2px"
         };
+
         var glyphStyle = {
             fontSize: "14px"
         };
@@ -850,7 +897,8 @@ var Messenger = React.createClass({
                         <ChatRoom
                             messages={this.state.messages}
                             chattingWith={this.state.chattingWith}
-                            onMessageDispatch={this.onMessageDispatch}/>
+                            onMessageDispatch={this.onMessageDispatch}
+                            onLoadMoreMessages={this.onClickToLoadMoreMessages}/>
                     </div>
                 </div>
             </div>

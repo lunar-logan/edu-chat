@@ -106,6 +106,7 @@ app.post('/api/inbox', function (req, res) {
                 ]
             },
             order: [['createdAt', 'DESC']],
+            offset: rangeStart,
             limit: 15
         }).then(function (messages) {
             if (messages) {

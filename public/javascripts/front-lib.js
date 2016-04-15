@@ -32,6 +32,32 @@ function logout() {
     docCookies.removeItem('username');
 }
 
+function processMessage(text) {
+    var tokens = text.split(/ +/).filter(function (v) {
+        return v && v.length > 0;
+    });
+
+   /* tokens.forEach(function (t) {
+        if (t.startsWith('@w:')) {
+            var colonIndex = t.indexOf(':');
+            var topic = t.substring(colonIndex + 1);
+            getWikipediaUrl(topic, function () {
+                
+            })
+        }
+    });*/
+
+}
+
+function getWikipediaUrl(topic, callback) {
+    $.get('/api/wiki?topic=' + topic).done(function (data) {
+        callback(data);
+    }).fail(function (e) {
+        callback(null);
+    });
+}
+
+
 /**
  * @author http://stackoverflow.com/users/1066579/nrnazifi
  * @see http://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
