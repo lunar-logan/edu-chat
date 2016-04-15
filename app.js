@@ -15,6 +15,7 @@ var session = require('express-session');
 var mookit = require('./lib/mookit');
 var socketChat = require('./lib/socket-chat')(io);
 var models = require('./lib/models');
+var wiki = require('./lib/wikipedia');
 
 var storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -191,6 +192,20 @@ app.post('/upload', function (req, res) {
     }
 });
 
+app.get('/wiki', function (req, res) {
+    var topic = req.query.topic;
+    if (topic) {
+        wiki.getUrl(topic, function (url) {
+            if (url) {
+                res.json({code: 0, msg: url});
+            } else {
+                res.json({code: -1, msg: 'Could not get the url'});
+            }
+        });
+    } else {
+        res.json({code: -1, msg: 'Topic not specified'});
+    }
+});
 
 var port = process.env.PORT || 3000;
 
