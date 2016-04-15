@@ -795,7 +795,9 @@ var Messenger = React.createClass({
         };
 
         var leftPanelStyle = {
-            background: "#27618d"
+            background: "#27618d",
+            maxHeight: "80vh",
+            overflow: "auto"
         };
 
         var topHeaderStyle = {
