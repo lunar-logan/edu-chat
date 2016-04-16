@@ -24,6 +24,15 @@ function dispatchMessage(msg) {
     socket.emit('private message', msg);
 }
 
+function dispatchCreateGroup(name, members) {
+    members.push(getUserName());
+    socket.emit('create group', {username: name, members: members});
+
+    socket.on('create group', function (msg) {
+        console.log("Message via create-group: " + JSON.stringify(msg));
+    });
+}
+
 // ============= socket io related code ends ======================
 
 
@@ -106,7 +115,7 @@ var OnlineUser = React.createClass({
             unseenMessagesCount: 0,
             unseenMessagesLabel: ''
         });
-        this.props.userSelected({uid: this.props.id, username: this.props.username});
+        this.props.userSelected({uid: this.props.id, username: this.props.username, type: this.props.type});
 
     },
 
@@ -175,7 +184,8 @@ var OnlineUser = React.createClass({
 
         return (
             // TODO : Remove default active class
-            <li role="presentation" className={this.props.id === this.props.chattingWith.uid ? 'active' : ''}>
+            <li role="presentation"
+                className={this.props.id === this.props.chattingWith.uid && this.props.type === this.props.chattingWith.type ? 'active' : ''}>
                 {this.getUserItem()}
             </li>
         );
@@ -286,9 +296,8 @@ var FilterableOnlineUsersList = React.createClass({
     },
     loadActiveUsers: function () {
         var self = this;
-        $.get(this.props.activeUsersUrl, function (data) {
+        $.get(this.props.activeUsersUrl + '?uid=' + getUserId(), function (data) {
             if (data) {
-                console.log(data);
                 self.setState(function (oldState, currentProps) {
                     return {filterText: oldState.filterText, users: data};
                 });
@@ -569,7 +578,8 @@ var MessageInput = React.createClass({
                     toUser: this.props.chattingWith.uid,
                     fromUser: getUserId(),
                     isFile: false,
-                    createdAt: Date.now()
+                    createdAt: Date.now(),
+                    type: this.props.chattingWith.type
                 };
                 this.props.onMessageDispatch(message);
                 dispatchMessage(message);
@@ -772,11 +782,12 @@ var Messenger = React.createClass({
         $.post("/api/inbox", {
             "uid": currentUserId,
             withUid: user.uid,
-            rangeStart: 0
+            rangeStart: 0,
+            type: user.type
         }, function (data) {
             if (data) {
                 console.log("Messages received from server: ");
-                // console.log(data);
+                console.log(data);
                 self.setState({rangeStart: data.length});
                 data = data.map(function (m) {
                     return {
@@ -792,12 +803,16 @@ var Messenger = React.createClass({
                 });
                 console.log(data);
                 self.setState(function (prevState, curProps) {
-                    return {messages: data, chattingWith: {uid: user.uid, username: user.username}};
+                    return {messages: data, chattingWith: {uid: user.uid, username: user.username, type: user.type}};
                 });
 
             } else {
                 self.setState(function (prevState, curProps) {
-                    return {messages: [], chattingWith: {uid: user.uid, username: user.username}, rangeStart: 0};
+                    return {
+                        messages: [],
+                        chattingWith: {uid: user.uid, username: user.username, type: user.type},
+                        rangeStart: 0
+                    };
                 });
             }
         });
@@ -851,6 +866,35 @@ var Messenger = React.createClass({
             }
         });
     },
+    handleCreateGroup: function (e) {
+        bootbox.dialog({
+            message: '<div class="input-group">' +
+            '<input type="text" class="form-control" placeholder="Group title" id="group-name">' +
+            '<input type="text" class="form-control" placeholder="Group members names as csv" id="group-members">' +
+            '</div>',
+            title: 'Create a new group',
+            buttons: {
+                success: {
+                    label: "Create",
+                    className: "btn-success",
+                    callback: function () {
+                        var name = $('#group-name').val();
+                        var members = $('#group-members').val();
+
+                        if (name && members) {
+                            members = members.split(/[ ,\t\n]+/).filter(function (v) {
+                                return v && v.length > 0;
+                            });
+                            if (members.length > 0) {
+                                dispatchCreateGroup(name.trim(), members);
+                            }
+                        }
+                    }
+                }
+            }
+
+        });
+    },
     render: function () {
         var onlineUsersListStyle = {
             overflow: "auto",
@@ -882,7 +926,8 @@ var Messenger = React.createClass({
             <div>
                 <div className="row" style={topHeaderStyle}>
                     <div className="col-sm-1">
-                        <button className="btn btn-success" style={btnStyle} title="Create a group">
+                        <button className="btn btn-success" style={btnStyle} title="Create a group"
+                                onClick={this.handleCreateGroup}>
                             <span className="glyphicon glyphicon-pencil whiteish" style={glyphStyle}></span>
                         </button>
                     </div>

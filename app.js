@@ -77,7 +77,13 @@ app.get('/api/user', function (req, res) {
  * Returns the currently active users on mookit
  */
 app.get('/api/users/active', function (req, res) {
-    mookit.getOnlineUsers(req.cookies, function (users) {
+    var uid = req.query.uid;
+    mookit.getOnlineUsers({
+        uid: uid,
+        username: req.cookies.username,
+        token: req.cookies.token,
+        mookitUid: req.cookies.uid
+    }, function (users) {
         res.json(users);
     });
 });
@@ -91,34 +97,56 @@ app.post('/api/inbox', function (req, res) {
         var user = req.body.uid;
         var withUser = req.body.withUid;
         var rangeStart = parseInt(req.body.rangeStart);
+        var type = req.body.type;
 
-        models.Inbox.findAll({
-            where: {
-                $or: [
-                    {
-                        fromUser: user,
-                        $and: {
-                            toUser: withUser
+        if (type === 'user') {
+            models.Inbox.findAll({
+                where: {
+                    $or: [
+                        {
+                            fromUser: user,
+                            $and: {
+                                toUser: withUser
+                            }
+                        },
+                        {
+                            fromUser: withUser,
+                            $and: {
+                                toUser: user
+                            }
                         }
-                    },
-                    {
-                        fromUser: withUser,
-                        $and: {
-                            toUser: user
-                        }
-                    }
-                ]
-            },
-            order: [['createdAt', 'DESC']],
-            offset: rangeStart,
-            limit: 15
-        }).then(function (messages) {
-            if (messages) {
-                res.json(messages);
-            } else {
-                res.json([]);
-            }
-        });
+                    ]
+                },
+                order: [['createdAt', 'DESC']],
+                offset: rangeStart,
+                limit: 15
+            }).then(function (messages) {
+                if (messages) {
+                    res.json(messages);
+                } else {
+                    res.json([]);
+                }
+            });
+        } else if (type === 'group') {
+            models.GroupMessage.findAll({
+                where: {toUser: withUser},
+                order: [['createdAt', 'DESC']],
+                offset: rangeStart,
+                limit: 15
+            }).then(function (messages) {
+                if (messages) {
+                    res.json(messages);
+                } else {
+                    res.json([]);
+                }
+            });
+
+        } else {    // unknown type
+            res.json({
+                code: -1,
+                msg: 'Unknown user type: ' + type
+            });
+        }
     } else {
         res.json({
             code: -1,
