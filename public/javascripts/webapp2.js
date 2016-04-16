@@ -520,6 +520,13 @@ var ChatItem = React.createClass({
  * messages: A list of messages
  */
 var ChatList = React.createClass({
+    componentDidUpdate: function () {
+        if (this.isMounted()) {
+            var nativeDOMNode = this.getDOMNode();
+            nativeDOMNode.scrollTop = nativeDOMNode.scrollHeight;
+        }
+        return true;
+    },
     componentDidMount: function () {
     },
     render: function () {
@@ -889,11 +896,22 @@ var Messenger = React.createClass({
     },
     handleCreateGroup: function (e) {
         bootbox.dialog({
-            message: '<div class="input-group">' +
-            '<input type="text" class="form-control" placeholder="Group title" id="group-name">' +
-            '<input type="text" class="form-control" placeholder="Group members names as csv" id="group-members">' +
+            message: '<div class="form-horizontal">' +
+            '<div class="form-group">' +
+            '<label class="control-label col-sm-2" for="group-name">Group Title:</label>' +
+            '<div class="col-sm-10">' +
+            '<input type="text" class="form-control" placeholder="Name your group" id="group-name">' +
+            '</div>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+            '<label class="control-label col-sm-2" for="group-members">Members:</label>' +
+            '<div class="col-sm-10">' +
+            '<input type="text" class="form-control" placeholder="Member names as comma separated values" id="group-members">' +
+            '</div>' +
+            '</div>' +
             '</div>',
-            title: 'Create a new group',
+            title: 'Create a Group',
             buttons: {
                 success: {
                     label: "Create",
