@@ -450,6 +450,10 @@ var ChatItem = React.createClass({
             float: "right"
             // boxShadow: "0 0 4px #d2d2d2"
         };
+
+        var fileMsgStyle = {
+            float: 'right'
+        };
         if (this.props.isFile) {
             var isImage = this.props.mimeType.startsWith("image");
             var url = this.getFileUrl();
@@ -458,7 +462,7 @@ var ChatItem = React.createClass({
                 <div className="row" style={itemStyle}>
                     <div className="col-sm-5" style={rightMessageTime}>{moment(this.props.createdAt).fromNow()}</div>
                     <div className="col-sm-6">
-                       <span style={msgStyle}>
+                       <span style={fileMsgStyle}>
                             <a href={url} target="_blank">{isImage ?
                                 <img src={url} style={imgFileStyle} width='200px' alt={url}/> :
                                 <span style={rightFileStyle}><span
@@ -601,6 +605,7 @@ var MessageInput = React.createClass({
             var formData = new FormData();
             formData.append('payload', fileList[0]);
             formData.append('toUser', this.props.chattingWith.uid);
+            formData.append('type', this.props.chattingWith.type);
 
             $.ajax({
                 url: '/upload',

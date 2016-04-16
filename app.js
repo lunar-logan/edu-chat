@@ -206,19 +206,38 @@ app.post('/upload', function (req, res) {
                 console.log(err);
                 return res.json({code: -1, msg: 'Could not upload your file'});
             }
-            models.Inbox.create({
-                fromUser: parseInt(req.session.eduId),
-                toUser: parseInt(req.body.toUser),
-                content: req.file.filename,
-                mimeType: req.file.mimetype,
-                isFile: true
-            }).then(function (so) {
-                if (so) {
-                    res.json({code: 0, msg: so});
-                } else {
-                    res.json({code: -1, msg: 'Object could not be uploaded'});
-                }
-            });
+            if (req.body.type === 'user') {
+                models.Inbox.create({
+                    fromUser: parseInt(req.session.eduId),
+                    toUser: parseInt(req.body.toUser),
+                    content: req.file.filename,
+                    mimeType: req.file.mimetype,
+                    isFile: true
+                }).then(function (so) {
+                    if (so) {
+                        res.json({code: 0, msg: so});
+                    } else {
+                        res.json({code: -1, msg: 'Object could not be uploaded'});
+                    }
+                });
+            } else if (req.body.type === 'group') {
+                models.GroupMessage.create({
+                    toUser: parseInt(req.body.toUser),
+                    fromUser: parseInt(req.session.eduId),
+                    content: req.file.filename,
+                    mimeType: req.file.mimetype,
+                    isFile: true
+                }).then(function (so) {
+                    if (so) {
+                        res.json({code: 0, msg: so});
+                    } else {
+                        res.json({code: -1, msg: 'Object could not be uploaded'});
+                    }
+                });
+            } else {
+                console.log(colors.red("Unknown type: '" + req.body.type + "' for uploading file"));
+                res.json({code: -1, msg: "Unknown type for the uploaded object"});
+            }
         });
     } else {
         res.json({code: -1, msg: "Aapko upload krne ka adhikaar nahi hai"});
