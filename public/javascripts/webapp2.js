@@ -701,24 +701,26 @@ var ChatRoom = React.createClass({
 
     updateWhoIsWriting: function () {
         var self = this;
-        socket.on('writing', function (msg) {
-            if (msg.uid == self.props.chattingWith.uid && self.state.timeLeft === 0) {
-                self.setState(function (oldState, currentProps) {
-                    return {
-                        isWriting: 'is writing',
-                        timeLeft: 3000
-                    };
-                });
-                setTimeout(function () {
+        if (self.props.chattingWith.type === 'user') {
+            socket.on('writing', function (msg) {
+                if (msg.uid == self.props.chattingWith.uid && self.state.timeLeft === 0) {
                     self.setState(function (oldState, currentProps) {
                         return {
-                            isWriting: '',
-                            timeLeft: 0
+                            isWriting: 'is writing',
+                            timeLeft: 3000
                         };
                     });
-                }, self.state.timeLeft);
-            }
-        });
+                    setTimeout(function () {
+                        self.setState(function (oldState, currentProps) {
+                            return {
+                                isWriting: '',
+                                timeLeft: 0
+                            };
+                        });
+                    }, self.state.timeLeft);
+                }
+            });
+        }
     },
 
     componentDidMount: function () {
