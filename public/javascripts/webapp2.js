@@ -389,7 +389,8 @@ var ChatItem = React.createClass({
             color: "#ffffff",
             display: "table",
             minWidth: "0%",
-            maxWidth: "100%"
+            maxWidth: "100%",
+            verticalAlign: "middle"
         };
 
         if (this.props.isFile) {
@@ -615,8 +616,10 @@ var MessageInput = React.createClass({
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    console.log(data);
+                    console.log("On upload server says: " + JSON.stringify(data));
                     if (data.code === 0) {
+                        data.msg.type = self.props.chattingWith.type;
+                        data.msg.createdAt = Date.parse(data.msg.createdAt) || data.msg.createdAt;
                         socket.emit('private message', data.msg);
                         self.props.onMessageDispatch(data.msg);
                     } else {
