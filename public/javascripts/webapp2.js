@@ -122,7 +122,7 @@ var OnlineUser = React.createClass({
     componentDidMount: function () {
         var self = this;
         socket.on('private message', function (msg) {
-            if (msg.fromUser == self.props.id && self.props.id != self.props.chattingWith.uid) {
+            if (msg.fromUser == self.props.id && self.props.id != self.props.chattingWith.uid && msg.type === self.props.type) {
                 var newState = {
                     unseenMessagesCount: 1 + self.state.unseenMessagesCount
                 };

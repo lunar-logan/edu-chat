@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1551d2ac-b8c8-417f-b697-efea122caeb5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/socket-chat.js" afterPath="$PROJECT_DIR$/lib/socket-chat.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/webapp2.js" afterPath="$PROJECT_DIR$/public/javascripts/webapp2.js" />
     </list>
     <ignored path="EduChat.iws" />
@@ -54,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="webapp2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="772" column="36" selection-start-line="772" selection-start-column="36" selection-end-line="772" selection-end-column="36" />
+            <state relative-caret-position="303">
+              <caret line="124" column="121" selection-start-line="124" selection-start-column="121" selection-end-line="124" selection-end-column="121" />
               <folding />
             </state>
           </provider>
@@ -84,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="socket-chat.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="socket-chat.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/socket-chat.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
+            <state relative-caret-position="1258">
+              <caret line="109" column="13" selection-start-line="109" selection-start-column="13" selection-end-line="109" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -137,8 +136,8 @@
         <option value="$PROJECT_DIR$/views/index.html" />
         <option value="$PROJECT_DIR$/lib/mookit.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
         <option value="$PROJECT_DIR$/lib/socket-chat.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/webapp2.js" />
       </list>
     </option>
   </component>
@@ -390,12 +389,12 @@
       <workItem from="1460552315430" duration="8589000" />
       <workItem from="1460611503802" duration="606000" />
       <workItem from="1460616503696" duration="30178000" />
-      <workItem from="1460706888162" duration="44388000" />
+      <workItem from="1460706888162" duration="44935000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="222073000" />
+    <option name="totallyTimeSpent" value="222620000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -767,6 +766,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/socket-chat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="109" column="13" selection-start-line="109" selection-start-column="13" selection-end-line="109" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/lib_in_usage">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -785,16 +792,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/webapp2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="772" column="36" selection-start-line="772" selection-start-column="36" selection-end-line="772" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/socket-chat.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="104" column="27" selection-start-line="104" selection-start-column="27" selection-end-line="104" selection-end-column="27" />
+        <state relative-caret-position="303">
+          <caret line="124" column="121" selection-start-line="124" selection-start-column="121" selection-end-line="124" selection-end-column="121" />
           <folding />
         </state>
       </provider>
