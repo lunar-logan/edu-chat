@@ -759,7 +759,7 @@ var Messenger = React.createClass({
         var self = this;
         socket.on('private message', function (msg) {
             L(msg);
-            if (msg.fromUser == self.state.chattingWith.uid && msg.createdAt) {
+            if (msg.fromUser == self.state.chattingWith.uid && msg.type === self.state.chattingWith.type && msg.createdAt) {
                 msg.createdAt = Date.parse(msg.createdAt) || msg.createdAt;
                 self.setState(function (prevState, curProps) {
                     var messages = prevState.messages;
