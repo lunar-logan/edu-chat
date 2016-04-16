@@ -368,7 +368,7 @@ var ChatItem = React.createClass({
     getFileUrl: function () {
         var self = this;
         if (self.props.isFile) {
-            return "/api/object?id=" + self.props.id;
+            return "/api/object?id=" + self.props.id + '&type=' + self.props.chattingWith.type;
         }
         return null;
     },
@@ -533,6 +533,8 @@ var ChatList = React.createClass({
             return 0;
         });
 
+        var self = this;
+
         var messageNodes = this.props.messages.map(function (chat) {
             if (!('createdAt' in chat)) {
                 chat.createdAt = Date.now();
@@ -547,6 +549,7 @@ var ChatList = React.createClass({
                     isFile={chat.isFile}
                     createdAt={chat.createdAt}
                     // key={Date.now()}
+                    chattingWith={self.props.chattingWith}
                     fromUsername={chat.fromUsername}/>
             );
         });
@@ -746,7 +749,7 @@ var ChatRoom = React.createClass({
                         </div>
                     </div>
                 </div>
-                <ChatList messages={this.props.messages}/>
+                <ChatList messages={this.props.messages} chattingWith={this.props.chattingWith}/>
                 <MessageInput
                     chattingWith={this.props.chattingWith}
                     onMessageDispatch={this.props.onMessageDispatch}/>

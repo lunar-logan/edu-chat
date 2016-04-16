@@ -169,12 +169,31 @@ app.post('/api/users', function (req, res) {
 app.get('/api/object', function (req, res) {
     if (req.session.authToken || req.query.clc) {
         var objectId = parseInt(req.query.id);
-        if (objectId) {
+        var type = req.query.type;
+
+        if (objectId && type && type === 'user') {
             models.Inbox.findOne({
                 where: {id: objectId}
             }).then(function (obj) {
                 if (obj && obj.isFile) {
                     var filePath = path.join(process.cwd(), 'uploads', obj.content);
+                    res.setHeader('Content-Type', obj.mimeType);
+                    var filestream = fs.createReadStream(filePath);
+                    filestream.pipe(res);
+                } else {
+                    res.json({
+                        code: -1,
+                        msg: "Object with the given id was not found"
+                    });
+                }
+            });
+        } else if (objectId && type && type === 'group') {
+            models.GroupMessage.findOne({
+                where: {id: objectId}
+            }).then(function (obj) {
+                if (obj && obj.isFile) {
+                    var filePath = path.join(process.cwd(), 'uploads', obj.content);
+                    console.log(colors.cyan("Filepath: "  + filePath));
                     res.setHeader('Content-Type', obj.mimeType);
                     var filestream = fs.createReadStream(filePath);
                     filestream.pipe(res);
