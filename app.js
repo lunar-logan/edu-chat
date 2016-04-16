@@ -79,9 +79,10 @@ app.get('/api/user', function (req, res) {
 app.get('/api/users/active', function (req, res) {
     var uid = req.query.uid;
     mookit.getOnlineUsers({
-        uid: uid,
+        uid: req.cookies.uid,
         username: req.cookies.username,
         token: req.cookies.token,
+        eduId: uid,
         mookitUid: req.cookies.uid
     }, function (users) {
         res.json(users);
@@ -193,7 +194,7 @@ app.get('/api/object', function (req, res) {
             }).then(function (obj) {
                 if (obj && obj.isFile) {
                     var filePath = path.join(process.cwd(), 'uploads', obj.content);
-                    console.log(colors.cyan("Filepath: "  + filePath));
+                    console.log(colors.cyan("Filepath: " + filePath));
                     res.setHeader('Content-Type', obj.mimeType);
                     var filestream = fs.createReadStream(filePath);
                     filestream.pipe(res);
