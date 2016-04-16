@@ -11,15 +11,15 @@ body {
     overflow: auto;
     /*width: 960px;*/
     /*height: 95vh;*/
-    padding-left: 16px;
-    padding-right: 16px;
+    /*padding-left: 16px;*/
+    /*padding-right: 16px;*/
 
     margin-left: auto;
     margin-right: auto;
 
     background: #EEEEEE;
 
-    box-shadow: 0 0 3px #aaa;
+    box-shadow: 0 0 8px #8f8f8f;
 }
 
 .chat-room {

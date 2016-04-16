@@ -846,7 +846,8 @@ var Messenger = React.createClass({
         $.post("/api/inbox", {
             "uid": currentUserId,
             withUid: user.uid,
-            rangeStart: self.state.rangeStart
+            rangeStart: self.state.rangeStart,
+            type: user.type
         }, function (data) {
             if (data) {
                 self.setState({rangeStart: self.state.rangeStart + data.length});
@@ -867,12 +868,19 @@ var Messenger = React.createClass({
                     data.forEach(function (m) {
                         messages.push(m);
                     });
-                    return {messages: messages, chattingWith: {uid: user.uid, username: user.username}};
+                    return {
+                        messages: messages,
+                        chattingWith: {uid: user.uid, username: user.username, type: user.type}
+                    };
                 });
 
             } else {
                 self.setState(function (prevState, curProps) {
-                    return {messages: [], chattingWith: {uid: user.uid, username: user.username}, rangeStart: 0};
+                    return {
+                        messages: [],
+                        chattingWith: {uid: user.uid, username: user.username, type: user.type},
+                        rangeStart: 0
+                    };
                 });
             }
         });
