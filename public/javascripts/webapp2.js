@@ -122,7 +122,7 @@ var OnlineUser = React.createClass({
     componentDidMount: function () {
         var self = this;
         socket.on('private message', function (msg) {
-            if (msg.fromUser == self.props.id && self.props.id != self.props.chattingWith.uid && msg.type === self.props.type) {
+            if (msg.fromUser === self.props.id && (self.props.id !== self.props.chattingWith.uid || msg.type !== self.props.chattingWith.type) && msg.type === self.props.type) {
                 var newState = {
                     unseenMessagesCount: 1 + self.state.unseenMessagesCount
                 };
@@ -576,7 +576,7 @@ var MessageInput = React.createClass({
                 var message = {
                     content: this.state.value,
                     toUser: this.props.chattingWith.uid,
-                    fromUser: getUserId(),
+                    fromUser: parseInt(getUserId()),
                     isFile: false,
                     createdAt: Date.now(),
                     type: this.props.chattingWith.type
