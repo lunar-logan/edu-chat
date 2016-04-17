@@ -708,8 +708,9 @@ var ChatRoom = React.createClass({
 
     updateWhoIsWriting: function () {
         var self = this;
-        if (self.props.chattingWith.type === 'user') {
-            socket.on('writing', function (msg) {
+        socket.on('writing', function (msg) {
+            if (self.props.chattingWith.type === 'user') {
+
                 if (msg.uid == self.props.chattingWith.uid && self.state.timeLeft === 0) {
                     self.setState(function (oldState, currentProps) {
                         return {
@@ -726,14 +727,50 @@ var ChatRoom = React.createClass({
                         });
                     }, self.state.timeLeft);
                 }
-            });
-        }
+            }
+        });
     },
 
     componentDidMount: function () {
         this.updateWhoIsWriting();
     },
 
+    showDialog: function (userList) {
+        bootbox.dialog({
+            message: '<ul class="list-group">' +
+            userList.join('') +
+            '</ul>',
+            title: 'Users in current chat',
+            buttons: {
+                success: {
+                    label: "Okay",
+                    className: "btn-success",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    },
+
+    handleUsernameClicked: function () {
+        var self = this;
+        var userList = [];
+        if (self.props.chattingWith.type === 'user') {
+            userList.push('<li class="list-group-item">' + self.props.chattingWith.username + '</li>');
+            self.showDialog(userList);
+        } else if (self.props.chattingWith.type === 'group') {
+            $.get('/api/group/users', {id: self.props.chattingWith.uid}, function (data) {
+                if (data.code === 0) {
+                    self.showDialog(data.msg.map(function (d) {
+                        return '<li class="list-group-item">' + d.username + '</li>';
+                    }));
+                } else {
+                    self.showDialog([]);
+                }
+            });
+        }
+
+    },
     render: function () {
         var chatRootStyle = {
             background: "#ffffff"
@@ -743,7 +780,8 @@ var ChatRoom = React.createClass({
                 <div className="container-fluid">
                     <div className="row" style={chatTitleStyle}>
                         <div className="col-sm-6">
-                            <span>{this.props.chattingWith.username}</span>
+                            <span className="chatting-with"
+                                  onClick={this.handleUsernameClicked}>{this.props.chattingWith.username}</span>
                             <span className="is-writing">{this.state.isWriting}</span>
                         </div>
                         <div className="col-sm-4"></div>

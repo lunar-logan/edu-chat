@@ -35,7 +35,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage, fileSize: 2 * 1024 * 1024}).single('payload');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -280,6 +280,37 @@ app.get('/api/wiki', function (req, res) {
     }
 });
 
+
+app.get('/api/group/users', function (req, res) {
+    var groupId = req.query.id;
+    if (groupId) {
+        models.GroupMember.findAll({
+            where: {
+                groupUid: groupId
+            }
+        }).then(function (members) {
+            if (members) {
+                var memberIds = members.map(function (m) {
+                    return m.userUid;
+                });
+                models.User.findAll({
+                    where: {
+                        uid: {
+                            $in: memberIds
+                        }
+                    }
+                }).then(function (users) {
+                    res.json({code: 0, msg: users || []});
+                });
+            } else {
+                res.json({code: -1, msg: []});
+            }
+        })
+    } else {
+        res.json({code: -1, msg: "Group id not specified"});
+    }
+
+});
 
 var port = process.env.PORT || 3000;
 
